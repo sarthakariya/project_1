@@ -3,148 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Confession Box</title>
+    <title>The Love Whisper Box</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* CSS Styling */
+        /* General Styles & Body Background */
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f2f5;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0e6f6 0%, #ffe6ee 100%); /* Soft gradient background */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            color: #333;
-            padding: 20px; /* Add some padding for smaller screens */
-        }
-
-        .container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 600px;
-            width: 100%;
-            margin-bottom: 30px; /* Space between the two sections */
-        }
-
-        h1 {
             color: #4a4a4a;
-            margin-bottom: 15px;
+            padding: 20px;
+            overflow: hidden; /* Hide overflow for animations */
+        }
+
+        /* Animated Background Elements (Hearts/Sparkles) */
+        .heart-animation {
+            position: absolute;
+            background-color: rgba(255, 105, 180, 0.5); /* Pink hearts */
+            width: 15px;
+            height: 15px;
+            transform: rotate(-45deg);
+            animation: floatHeart 15s infinite ease-in-out;
+            pointer-events: none; /* Allows clicks to pass through */
+            z-index: -1; /* Behind content */
+            opacity: 0; /* Start invisible */
+        }
+
+        .heart-animation:before,
+        .heart-animation:after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: rgba(255, 105, 180, 0.5);
+        }
+
+        .heart-animation:before {
+            top: -7.5px;
+            left: 0;
+        }
+
+        .heart-animation:after {
+            left: 7.5px;
+            top: 0;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(-45deg) scale(0.5);
+                opacity: 0;
+            }
+            25% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-50px) rotate(-45deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Container Styling */
+        .container {
+            background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); /* More prominent shadow */
+            text-align: center;
+            max-width: 650px;
+            width: 100%;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-out; /* Main container entrance animation */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Headings & Paragraphs */
+        h1, h2 {
+            font-family: 'Dancing Script', cursive; /* Elegant script font */
+            color: #8a2be2; /* Deep purple */
+            margin-bottom: 20px;
+            font-size: 2.8em; /* Larger headings */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.05);
         }
 
         h2 {
-            color: #4a4a4a;
-            margin-bottom: 15px;
+            font-size: 2.2em;
         }
 
         p {
+            font-family: 'Poppins', sans-serif;
             margin-bottom: 25px;
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 1.1em;
+            color: #555;
         }
 
-        textarea {
-            width: calc(100% - 20px);
-            padding: 15px;
-            margin-bottom: 15px; /* Adjust margin for the pin input */
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
+        /* Textarea and Input Fields */
+        textarea, input[type="text"] {
+            width: calc(100% - 30px); /* Adjust for padding */
+            padding: 18px;
+            margin-bottom: 18px;
+            border: 1px solid #e0b0ff; /* Soft purple border */
+            border-radius: 10px;
+            font-size: 1.05rem;
             resize: vertical;
             box-sizing: border-box;
+            background-color: #fcfcff;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 1px 5px rgba(0,0,0,0.05);
         }
 
-        input[type="text"] {
-            width: calc(100% - 20px);
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            box-sizing: border-box;
-            text-align: center; /* Center the pin text */
+        textarea::placeholder, input[type="text"]::placeholder {
+            color: #a0a0a0;
         }
 
         textarea:focus, input[type="text"]:focus {
             outline: none;
-            border-color: #6a0dad;
-            box-shadow: 0 0 8px rgba(106, 13, 173, 0.2);
+            border-color: #8a2be2;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
+            background-color: #ffffff;
         }
 
+        /* Buttons */
         button {
-            background-color: #6a0dad;
+            background: linear-gradient(45deg, #8a2be2, #ff69b4); /* Gradient from purple to pink */
             color: white;
-            padding: 12px 25px;
+            padding: 15px 35px;
             border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
+            border-radius: 30px; /* Pill-shaped buttons */
+            font-size: 1.2em;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
         button:hover {
-            background-color: #530a84;
-            transform: translateY(-2px);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            background: linear-gradient(45deg, #ff69b4, #8a2be2); /* Reverse gradient on hover */
         }
 
         button:active {
             transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
+        /* Message Display */
         .message {
             margin-top: 25px;
-            font-size: 1.1rem;
-            font-weight: bold;
+            font-size: 1.15em;
+            font-weight: 600;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out, color 0.3s ease;
-            min-height: 25px; /* Prevent layout shift */
+            min-height: 25px;
+            padding: 8px 0;
+            border-radius: 5px;
+            animation: messageFadeIn 0.5s ease-out forwards;
+        }
+        
+        @keyframes messageFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .message.success {
-            color: #28a745; /* Success green */
+            color: #28a745;
+            background-color: rgba(40, 167, 69, 0.08);
         }
 
         .message.error {
-            color: #dc3545; /* Error red */
+            color: #dc3545;
+            background-color: rgba(220, 53, 69, 0.08);
         }
 
         .message.show {
             opacity: 1;
         }
 
+        /* Retrieved Confession Display */
         #retrievedConfession {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border: 1px dashed #ccc;
-            border-radius: 8px;
+            margin-top: 25px;
+            padding: 25px;
+            background-color: #fcf6ff; /* Very light purple */
+            border: 2px dashed #d8b0f7; /* Dashed purple border */
+            border-radius: 12px;
             text-align: left;
-            white-space: pre-wrap; /* Preserves formatting and line breaks */
-            word-wrap: break-word; /* Breaks long words */
-            min-height: 50px;
-            display: none; /* Hidden by default */
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            min-height: 80px;
+            display: none;
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #666;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+                margin-bottom: 20px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            h2 {
+                font-size: 1.8em;
+            }
+            p {
+                font-size: 1em;
+            }
+            button {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
         }
     </style>
 </head>
 <body>
 
+    <div class="heart-animation" style="left: 10%; top: 20%; animation-delay: 0s; transform: scale(0.6);"></div>
+    <div class="heart-animation" style="left: 30%; top: 50%; animation-delay: 2s; transform: scale(0.8);"></div>
+    <div class="heart-animation" style="left: 50%; top: 10%; animation-delay: 4s; transform: scale(0.7);"></div>
+    <div class="heart-animation" style="left: 70%; top: 70%; animation-delay: 6s; transform: scale(0.9);"></div>
+    <div class="heart-animation" style="left: 90%; top: 40%; animation-delay: 8s; transform: scale(0.5);"></div>
+    <div class="heart-animation" style="left: 20%; top: 80%; animation-delay: 10s; transform: scale(1);"></div>
+    <div class="heart-animation" style="left: 40%; top: 30%; animation-delay: 12s; transform: scale(0.75);"></div>
+    <div class="heart-animation" style="left: 60%; top: 60%; animation-delay: 14s; transform: scale(0.85);"></div>
+    <div class="heart-animation" style="left: 80%; top: 90%; animation-delay: 16s; transform: scale(0.65);"></div>
+    <div class="heart-animation" style="left: 5%; top: 5%; animation-delay: 18s; transform: scale(0.95);"></div>
+
+
     <div class="container">
-        <h1>Write Your Confession</h1>
-        <p>Type your feelings below. To retrieve it later, enter a PIN. Your confession will be saved securely on this device only.</p>
-        <textarea id="confessionText" placeholder="Write your feelings here..." rows="10"></textarea>
-        <input type="text" id="confessionPin" placeholder="Enter a PIN to remember this confession" maxlength="10">
-        <button id="saveButton">Save My Confession</button>
+        <h1>Share Your Heart's Whispers</h1>
+        <p>Pour out your feelings here, exclusively for that special someone or just for your own peace of mind. Your secret will be safely nestled away, waiting for your unique key.</p>
+        <textarea id="confessionText" placeholder="Write your heartfelt message or secret here..." rows="10"></textarea>
+        <input type="text" id="confessionPin" placeholder="Choose a special PIN to unlock this secret (e.g., your anniversary date)" maxlength="10">
+        <button id="saveButton">Seal My Secret</button>
         <div id="saveMessage" class="message"></div>
     </div>
 
     <div class="container">
-        <h2>Retrieve a Confession</h2>
-        <p>Enter the PIN to view your saved confession.</p>
-        <input type="text" id="retrievePin" placeholder="Enter the PIN to retrieve">
-        <button id="retrieveButton">Retrieve Confession</button>
+        <h2>Unveil a Hidden Emotion</h2>
+        <p>Enter the secret PIN to reveal the heartfelt message you (or someone special) once entrusted to this box.</p>
+        <input type="text" id="retrievePin" placeholder="Enter the secret PIN to retrieve">
+        <button id="retrieveButton">Reveal the Whisper</button>
         <div id="retrieveMessage" class="message"></div>
         <div id="retrievedConfession"></div>
     </div>
@@ -169,20 +289,18 @@
 
                 // Check if both fields are filled
                 if (confession === '' || pin === '') {
-                    displayMessage(saveMessageDiv, "Please write something and enter a PIN.", 'error');
+                    displayMessage(saveMessageDiv, "Please pour out your feelings AND choose a special PIN.", 'error');
                     return;
                 }
 
                 // Create a unique key using the PIN
-                // Using a prefix like 'confession-' helps avoid conflicts with other localStorage items
-                const key = `confession-${pin}`;
+                const key = `lovewhisper-${pin}`; // Changed key prefix for the new theme
 
                 // Store the confession in localStorage
-                // localStorage is used here to make it accessible across sessions on the same device.
                 localStorage.setItem(key, confession);
 
                 // Display a success message and clear fields
-                displayMessage(saveMessageDiv, "Your confession has been saved! You can retrieve it with your PIN.", 'success');
+                displayMessage(saveMessageDiv, "Your secret has been beautifully sealed! Remember your PIN to retrieve it.", 'success');
                 confessionTextarea.value = '';
                 confessionPinInput.value = '';
             });
@@ -190,20 +308,20 @@
             // --- Function to retrieve the confession ---
             retrieveButton.addEventListener('click', () => {
                 const pin = retrievePinInput.value.trim();
-                const key = `confession-${pin}`;
+                const key = `lovewhisper-${pin}`;
 
                 // Retrieve the confession from localStorage
                 const storedConfession = localStorage.getItem(key);
 
                 if (storedConfession) {
                     // PIN is correct, show the confession
-                    displayMessage(retrieveMessageDiv, "Confession retrieved!", 'success');
+                    displayMessage(retrieveMessageDiv, "The whisper is unveiled! Here is your heartfelt message.", 'success');
                     retrievedConfessionDiv.textContent = storedConfession;
                     retrievedConfessionDiv.style.display = 'block'; // Show the div
-
+                    retrievedConfessionDiv.style.animation = 'slideInUp 0.8s ease-out forwards'; // Re-trigger animation
                 } else {
                     // PIN is wrong or not found
-                    displayMessage(retrieveMessageDiv, "Wrong PIN or confession not found.", 'error');
+                    displayMessage(retrieveMessageDiv, "Hmm, that PIN doesn't seem to unlock any secrets here. Double-check?", 'error');
                     retrievedConfessionDiv.style.display = 'none'; // Hide the div
                     retrievedConfessionDiv.textContent = ''; // Clear any old content
                 }
@@ -212,17 +330,17 @@
             // --- Helper function to display messages ---
             function displayMessage(element, text, type) {
                 element.textContent = text;
-                element.classList.remove('success', 'error'); // Remove previous types
-                element.classList.add(type, 'show');
+                element.classList.remove('success', 'error', 'show'); // Reset classes
+                element.classList.add(type);
+
+                // Force reflow to re-trigger animation
+                void element.offsetWidth;
+                element.classList.add('show');
 
                 // Automatically hide the message after a few seconds
                 setTimeout(() => {
                     element.classList.remove('show');
-                    // Optionally clear the text after hiding if it's an error/temporary message
-                    if (type === 'error') {
-                        element.textContent = '';
-                    }
-                }, 4000); // Message displays for 4 seconds
+                }, 5000); // Message displays for 5 seconds
             }
         });
     </script>
