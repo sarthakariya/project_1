@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Confession Box</title>
+    <style>
+        /* CSS Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #4a4a4a;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        textarea {
+            width: calc(100% - 20px);
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: vertical; /* Allows vertical resizing */
+            box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #6a0dad; /* A calming purple */
+            box-shadow: 0 0 8px rgba(106, 13, 173, 0.2);
+        }
+
+        button {
+            background-color: #6a0dad; /* Calming purple */
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: #530a84; /* Darker purple on hover */
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .message {
+            margin-top: 25px;
+            font-size: 1.1rem;
+            color: #28a745; /* Success green */
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .message.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to The Confession Box</h1>
+        <p>A private space for you to express your feelings and let them go. What you write here stays here, unseen by anyone else.</p>
+        <textarea id="confessionText" placeholder="Write your feelings here..." rows="10"></textarea>
+        <button id="releaseButton">Release Your Feelings</button>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        // JavaScript Functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const confessionTextarea = document.getElementById('confessionText');
+            const releaseButton = document.getElementById('releaseButton');
+            const messageDiv = document.getElementById('message');
+
+            releaseButton.addEventListener('click', () => {
+                const confession = confessionTextarea.value.trim();
+
+                if (confession !== '') {
+                    // Display a message indicating the feelings were "released"
+                    messageDiv.textContent = "Your feelings have been released into the ether. They are safe and unseen.";
+                    messageDiv.classList.add('show');
+
+                    // Clear the textarea after a brief delay
+                    setTimeout(() => {
+                        confessionTextarea.value = '';
+                        messageDiv.classList.remove('show');
+                    }, 3000); // Message shows for 3 seconds
+
+                    // Important: The confession text is NOT sent to any server,
+                    // nor is it stored persistently in the browser.
+                    // This ensures absolute privacy ("no one can see it").
+
+                } else {
+                    messageDiv.textContent = "Please write something before releasing.";
+                    messageDiv.style.color = '#dc3545'; // Error red
+                    messageDiv.classList.add('show');
+                    setTimeout(() => {
+                        messageDiv.classList.remove('show');
+                        messageDiv.style.color = '#28a745'; // Reset to green
+                    }, 3000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
