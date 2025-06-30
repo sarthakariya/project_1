@@ -4,47 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Love Whisper Box: A Sanctuary of Sentiments</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600;700&family=Lora:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* General Styles for HTML and Body for full page scrollability and aesthetic */
-        html, body {
-            height: 100%;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden; /* Prevent horizontal scrollbar */
-            scroll-behavior: smooth; /* Smooth scrolling for potential anchors */
+        /* Universal Box-Sizing for predictable layout - CRITICAL FOR FITTING */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px; /* Base font size for REM units */
         }
 
         body {
-            font-family: 'Poppins', sans-serif; /* Primary text font */
-            /* New 'Couple Dancing' Background with more layers */
+            font-family: 'Inter', sans-serif; /* Primary font for UI elements and general text */
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 1.25rem; /* ~20px overall padding from viewport edges */
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+            overflow-y: auto; /* Ensure vertical scrolling */
+            scroll-behavior: smooth; /* Smooth scrolling for potential anchors */
+
+            /* 'Couple Dancing' Background with more layers */
             background:
-                /* First 'dancer' - subtle, irregular shapes, slightly more pronounced */
                 radial-gradient(ellipse at 20% 80%, rgba(255, 180, 200, 0.5) 0%, transparent 50%),
                 radial-gradient(ellipse at 80% 20%, rgba(255, 180, 200, 0.5) 0%, transparent 50%),
-                /* Second 'dancer' - softer, larger waves, slightly different color */
                 linear-gradient(135deg, rgba(255, 210, 230, 0.7) 0%, transparent 50%),
                 linear-gradient(45deg, rgba(255, 210, 230, 0.7) 0%, transparent 50%),
-                /* Base gradient */
                 linear-gradient(135deg, #fef0f7 0%, #ffe6ee 50%, #fcd9e8 100%);
 
-            background-size:
-                250% 250%, /* Increased size for first dancer's gradients */
-                250% 250%, /* Increased size for first dancer's gradients */
-                220% 220%, /* Increased size for second dancer's gradients */
-                220% 220%, /* Increased size for second dancer's gradients */
-                100% 100%; /* For the fixed pink base gradient */
-
-            background-position:
-                0% 0%, /* Initial position for radial gradients */
-                100% 100%,
-                0% 0%, /* Initial position for linear gradients */
-                100% 100%,
-                center center; /* For the base gradient */
+            background-size: 250% 250%, 250% 250%, 220% 220%, 220% 220%, 100% 100%;
+            background-position: 0% 0%, 100% 100%, 0% 0%, 100% 100%, center center;
 
             animation: danceBackground 35s infinite alternate ease-in-out,
-                       subtleShift 40s infinite linear; /* Main background animation and added subtle shift */
+                       subtleShift 40s infinite linear;
 
             display: flex;
             flex-direction: column;
@@ -52,20 +45,13 @@
             align-items: center;
             min-height: 100vh;
             color: #4a4a4a;
-            padding: 20px;
-            position: relative;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: #ff8ab4 #f8bbd0;
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: #ff8ab4 #f8bbd0; /* For Firefox */
         }
 
         @keyframes danceBackground {
-            0% {
-                background-position: 0% 0%, 100% 100%, 0% 0%, 100% 100%, center center;
-            }
-            100% {
-                background-position: 100% 100%, 0% 0%, 100% 100%, 0% 0%, center center;
-            }
+            0% { background-position: 0% 0%, 100% 100%, 0% 0%, 100% 100%, center center; }
+            100% { background-position: 100% 100%, 0% 0%, 100% 100%, 0% 0%, center center; }
         }
 
         @keyframes subtleShift {
@@ -73,31 +59,21 @@
             100% { background-position-x: 100%; }
         }
 
-        /* Custom scrollbar for Webkit browsers (body) */
-        body::-webkit-scrollbar {
-            width: 8px;
-        }
-        body::-webkit-scrollbar-track {
-            background: #f8bbd0; /* Light pink track */
-            border-radius: 10px;
-        }
-        body::-webkit-scrollbar-thumb {
-            background: #ff8ab4; /* Brighter pink thumb */
-            border-radius: 10px;
-        }
-        body::-webkit-scrollbar-thumb:hover {
-            background: #e65288; /* Darker pink on hover */
-        }
+        /* Custom scrollbar for Webkit browsers (Chrome, Safari) */
+        body::-webkit-scrollbar { width: 0.5rem; /* ~8px */ }
+        body::-webkit-scrollbar-track { background: #f8bbd0; border-radius: 0.625rem; /* ~10px */ }
+        body::-webkit-scrollbar-thumb { background: #ff8ab4; border-radius: 0.625rem; }
+        body::-webkit-scrollbar-thumb:hover { background: #e65288; }
 
-        /* Animated Heart Elements - Reintroduced and Made Bigger */
+        /* Animated Heart Elements */
         .animated-heart {
             position: absolute;
-            pointer-events: none;
+            pointer-events: none; /* Allows clicks to pass through */
             z-index: -1; /* Keep them behind content */
             opacity: 0;
             background-color: rgba(255, 105, 180, 0.4); /* Pink hearts */
-            width: 25px; /* Bigger heart size */
-            height: 25px; /* Bigger heart size */
+            width: 1.5625rem; /* ~25px */
+            height: 1.5625rem; /* ~25px */
             transform: rotate(-45deg);
             border-radius: 50%;
             animation: floatFadeRotateHeart 20s infinite ease-in-out;
@@ -106,38 +82,38 @@
         .animated-heart::before, .animated-heart::after {
             content: '';
             position: absolute;
-            width: 25px; /* Bigger heart size */
-            height: 25px; /* Bigger heart size */
+            width: 1.5625rem;
+            height: 1.5625rem;
             border-radius: 50%;
             background-color: rgba(255, 105, 180, 0.4);
         }
-        .animated-heart::before { top: -12.5px; left: 0; } /* Adjusted for new size */
-        .animated-heart::after { left: 12.5px; top: 0; } /* Adjusted for new size */
+        .animated-heart::before { top: -0.78125rem; left: 0; /* ~ -12.5px */ }
+        .animated-heart::after { left: 0.78125rem; top: 0; /* ~ 12.5px */ }
 
         @keyframes floatFadeRotateHeart {
             0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
             25% { opacity: 0.8; }
-            100% { transform: translateY(-50px) rotate(360deg) scale(1.5); opacity: 0; } /* Bigger ending scale */
+            100% { transform: translateY(-3.125rem) rotate(360deg) scale(1.5); opacity: 0; /* ~ -50px */ }
         }
 
-        /* Container Styling for the main sections */
+        /* Container Styling */
         .container {
-            background-color: rgba(255, 255, 255, 0.98); /* Near opaque white */
-            padding: 45px; /* Increased padding for better fitting */
-            border-radius: 20px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); /* Softer, deeper shadow */
+            background-color: rgba(255, 255, 255, 0.98);
+            padding: 2.5rem; /* ~40px */
+            border-radius: 1.25rem; /* ~20px */
+            box-shadow: 0 0.75rem 2.5rem rgba(0, 0, 0, 0.15); /* ~ 0 12px 40px */
             text-align: center;
-            max-width: 700px; /* Slightly wider */
+            max-width: 45rem; /* ~720px */
             width: 100%; /* Ensure it takes full width within max-width */
-            margin-bottom: 35px; /* More spacing between containers */
-            animation: fadeInSlideUp 1.2s ease-out; /* Main container entrance */
-            position: relative; /* For inner elements and easter eggs */
-            border: 1px solid rgba(255, 192, 203, 0.5); /* Subtle pink border */
-            box-sizing: border-box; /* Include padding and border in element's total width and height */
+            margin-bottom: 2.1875rem; /* ~35px spacing between containers */
+            animation: fadeInSlideUp 1.2s ease-out;
+            position: relative;
+            border: 0.0625rem solid rgba(255, 192, 203, 0.5); /* ~1px subtle border */
+            overflow: hidden; /* Ensures no content spills out */
         }
 
         @keyframes fadeInSlideUp {
-            from { opacity: 0; transform: translateY(30px); }
+            from { opacity: 0; transform: translateY(1.875rem); /* ~30px */ }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -145,55 +121,51 @@
         h1, h2 {
             font-family: 'Playfair Display', serif; /* Elegant serif for titles */
             color: #b062b8; /* A beautiful plum/lavender tone */
-            margin-bottom: 20px;
-            font-size: 3em; /* Larger headings */
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.08);
+            margin-bottom: 1.25rem; /* ~20px */
+            font-size: 2.8rem; /* Adjusted for better scale on larger screens */
+            text-shadow: 0.0625rem 0.0625rem 0.25rem rgba(0,0,0,0.08); /* ~1px 1px 4px */
             animation: textFadeIn 1s ease-out forwards;
-            animation-delay: 0.2s;
         }
 
         h2 {
-            font-size: 2.4em;
+            font-size: 2.2rem; /* Adjusted for better scale on larger screens */
             color: #8a2be2; /* Deeper purple for subheadings */
-            animation-delay: 0.4s;
         }
 
         p {
-            font-family: 'Lora', serif; /* Changed to Lora for polished reading */
-            margin-bottom: 25px;
-            line-height: 1.8;
-            font-size: 1.1em; /* Slightly adjusted text size for better fit */
+            font-family: 'Lora', serif; /* Polished, readable serif for body text */
+            margin-bottom: 1.5625rem; /* ~25px */
+            line-height: 1.7; /* Good readability */
+            font-size: 1.05rem; /* Slightly adjusted text size for better fit */
             color: #555;
             animation: textFadeIn 1s ease-out forwards;
-            animation-delay: 0.6s;
-            max-width: 90%; /* Constrain paragraph width inside container */
+            max-width: 95%; /* Prevents very long lines, aids readability */
             margin-left: auto;
             margin-right: auto;
         }
 
         @keyframes textFadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(0.625rem); /* ~10px */ }
             to { opacity: 1; transform: translateY(0); }
         }
 
         /* Textarea and Input Fields */
         textarea, input[type="text"] {
-            width: calc(100% - 40px); /* Adjusted width to account for increased padding */
-            padding: 18px;
-            margin-bottom: 18px;
-            border: 2px solid #e0b0ff; /* Soft purple border */
-            border-radius: 12px; /* More rounded */
-            font-size: 1.05rem; /* Slightly smaller font for better fit */
-            resize: vertical;
-            box-sizing: border-box; /* Crucial for fitting */
+            width: calc(100% - 2.5rem); /* 100% width minus (2 * 1.25rem padding) */
+            padding: 1.125rem; /* ~18px */
+            margin-bottom: 1.125rem; /* ~18px */
+            border: 0.125rem solid #e0b0ff; /* ~2px soft purple border */
+            border-radius: 0.75rem; /* ~12px more rounded */
+            font-size: 1rem;
+            resize: vertical; /* Allows vertical resizing */
+            font-family: 'Inter', sans-serif; /* Consistent font for inputs */
             background-color: #fcfcff;
             transition: all 0.3s ease;
-            box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
-            font-family: 'Poppins', sans-serif; /* Consistent font for inputs */
+            box-shadow: inset 0 0.125rem 0.5rem rgba(0,0,0,0.05); /* ~0 2px 8px inner shadow */
         }
 
         textarea::placeholder, input[type="text"]::placeholder {
-            font-family: 'Poppins', sans-serif; /* Consistent font for placeholders */
+            font-family: 'Inter', sans-serif;
             color: #a0a0a0;
             font-style: italic; /* Elegant placeholder */
         }
@@ -201,50 +173,50 @@
         textarea:focus, input[type="text"]:focus {
             outline: none;
             border-color: #c080ff; /* Lighter purple on focus */
-            box-shadow: 0 0 20px rgba(138, 43, 226, 0.4), inset 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 0 1.25rem rgba(138, 43, 226, 0.4), inset 0 0.125rem 0.5rem rgba(0,0,0,0.1); /* ~ 0 0 20px, inset 0 2px 8px */
             background-color: #ffffff;
-            transform: translateY(-2px); /* Slight lift on focus */
+            transform: translateY(-0.125rem); /* Slight lift on focus */
         }
 
         /* Scrollbar for Textarea */
         textarea {
-            min-height: 120px; /* Slightly larger min-height */
-            max-height: 350px; /* Slightly larger max-height */
-            overflow-y: auto;
+            min-height: 7.5rem; /* ~120px */
+            max-height: 21.875rem; /* ~350px */
+            overflow-y: auto; /* Ensures scrollability for long texts */
         }
-        textarea::-webkit-scrollbar { width: 8px; }
-        textarea::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
-        textarea::-webkit-scrollbar-thumb { background: #b08dff; border-radius: 10px; }
+        textarea::-webkit-scrollbar { width: 0.5rem; }
+        textarea::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 0.625rem; }
+        textarea::-webkit-scrollbar-thumb { background: #b08dff; border-radius: 0.625rem; }
         textarea::-webkit-scrollbar-thumb:hover { background: #8a2be2; }
 
         /* Buttons */
         button {
             background: linear-gradient(45deg, #ff8ab4, #e65288); /* Pink to deeper pink gradient */
             color: white;
-            padding: 16px 38px; /* Slightly larger padding */
+            padding: 1rem 2.375rem; /* ~16px 38px */
             border: none;
-            border-radius: 35px; /* More pill-shaped */
-            font-size: 1.25em; /* Slightly larger font */
+            border-radius: 2.1875rem; /* ~35px pill-shaped */
+            font-size: 1.15rem; /* Adjusted for polished look */
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(.25,.8,.25,1); /* Smooth hover effect */
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            letter-spacing: 0.8px;
+            box-shadow: 0 0.5rem 1.5625rem rgba(0, 0, 0, 0.2); /* ~0 8px 25px */
+            letter-spacing: 0.05rem; /* ~0.8px */
             text-transform: uppercase;
             position: relative;
             overflow: hidden; /* For ripple effect */
-            font-family: 'Poppins', sans-serif; /* Consistent font for buttons */
+            font-family: 'Inter', sans-serif; /* Consistent font for buttons */
         }
 
         button:hover {
-            transform: translateY(-7px) scale(1.02);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(-0.4375rem) scale(1.02); /* ~ -7px */
+            box-shadow: 0 0.9375rem 2.5rem rgba(0, 0, 0, 0.3); /* ~0 15px 40px */
             background: linear-gradient(45deg, #e65288, #ff8ab4); /* Reverse gradient on hover */
         }
 
         button:active {
             transform: translateY(0);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0.25rem 0.9375rem rgba(0, 0, 0, 0.1); /* ~0 4px 15px */
         }
 
         /* Ripple effect for buttons */
@@ -259,109 +231,97 @@
         }
 
         @keyframes ripple-animation {
-            to {
-                transform: scale(2.5);
-                opacity: 0;
-            }
+            to { transform: scale(2.5); opacity: 0; }
         }
 
         /* Message Display */
         .message {
-            margin-top: 25px;
-            font-size: 1.1em; /* Adjusted message text size */
+            margin-top: 1.5625rem; /* ~25px */
+            font-size: 1rem; /* Adjusted for better fit */
             font-weight: 600;
             opacity: 0;
-            min-height: 30px; /* Ensure space */
-            padding: 10px 0;
-            border-radius: 8px;
+            min-height: 1.875rem; /* ~30px */
+            padding: 0.625rem 0; /* ~10px */
+            border-radius: 0.5rem; /* ~8px */
             animation: messageFadeIn 0.6s ease-out forwards;
-            background-color: rgba(255, 255, 255, 0.7); /* Slightly transparent background for messages */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            font-family: 'Poppins', sans-serif; /* Consistent font */
+            background-color: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 0.125rem 0.625rem rgba(0,0,0,0.05); /* ~0 2px 10px */
+            font-family: 'Inter', sans-serif; /* Consistent font */
         }
 
         @keyframes messageFadeIn {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(0.9375rem); /* ~15px */ }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .message.success {
-            color: #28a745; /* Green */
-            border: 1px solid #28a745;
-        }
-
-        .message.error {
-            color: #dc3545; /* Red */
-            border: 1px solid #dc3545;
-        }
-
-        .message.show {
-            opacity: 1;
-        }
+        .message.success { color: #28a745; border: 0.0625rem solid #28a745; }
+        .message.error { color: #dc3545; border: 0.0625rem solid #dc3545; }
+        .message.show { opacity: 1; }
 
         /* Retrieved Confession Display */
         #retrievedConfession {
-            margin-top: 30px;
-            padding: 30px; /* More padding */
-            background-color: #fcf6ff; /* Very light purple */
-            border: 2px dashed #b08dff; /* Dashed purple border */
-            border-radius: 15px; /* More rounded */
+            margin-top: 1.875rem; /* ~30px */
+            padding: 1.875rem; /* ~30px */
+            background-color: #fcf6ff;
+            border: 0.125rem dashed #b08dff; /* ~2px dashed purple border */
+            border-radius: 0.9375rem; /* ~15px more rounded */
             text-align: left;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            min-height: 100px;
-            max-height: 400px; /* Allow more content before scrolling */
-            overflow-y: auto;
+            white-space: pre-wrap; /* Preserves whitespace and line breaks */
+            word-wrap: break-word; /* Breaks long words to prevent overflow */
+            min-height: 6.25rem; /* ~100px */
+            max-height: 25rem; /* ~400px */
+            overflow-y: auto; /* Ensures scrollability for long confessions */
             display: none;
             font-family: 'Dancing Script', cursive; /* Elegant script for retrieved text */
-            font-size: 1.4em; /* Larger font for readability */
-            line-height: 2; /* More line spacing */
+            font-size: 1.4rem; /* Larger font for readability */
+            line-height: 1.8; /* More line spacing */
             color: #6a1b9a; /* Deep purple */
-            box-shadow: inset 0 3px 15px rgba(0,0,0,0.08); /* Deeper inner shadow */
+            box-shadow: inset 0 0.1875rem 0.9375rem rgba(0,0,0,0.08); /* ~inset 0 3px 15px deeper inner shadow */
             animation: slideInFromLeft 1s ease-out forwards;
         }
 
         /* Scrollbar for Retrieved Confession */
-        #retrievedConfession::-webkit-scrollbar { width: 8px; }
-        #retrievedConfession::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
-        #retrievedConfession::-webkit-scrollbar-thumb { background: #d8b0f7; border-radius: 10px; }
+        #retrievedConfession::-webkit-scrollbar { width: 0.5rem; }
+        #retrievedConfession::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 0.625rem; }
+        #retrievedConfession::-webkit-scrollbar-thumb { background: #d8b0f7; border-radius: 0.625rem; }
         #retrievedConfession::-webkit-scrollbar-thumb:hover { background: #b08dff; }
 
         @keyframes slideInFromLeft {
-            from { opacity: 0; transform: translateX(-50px); }
+            from { opacity: 0; transform: translateX(-3.125rem); /* ~ -50px */ }
             to { opacity: 1; transform: translateX(0); }
         }
 
-        /* Easter Egg: Hidden heart/message - Made Bigger */
+        /* Easter Egg: Hidden heart/message */
         #hiddenEasterEgg {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            font-size: 3.5em; /* Significantly bigger heart size */
+            bottom: 1.25rem; /* ~20px */
+            right: 1.25rem; /* ~20px */
+            font-size: 3rem; /* Adjusted for rem scaling */
             cursor: pointer;
-            opacity: 0.3; /* A bit more visible but still subtle */
+            opacity: 0.3;
             transition: opacity 0.3s ease, transform 0.3s ease;
-            z-index: 100; /* On top */
+            z-index: 100;
         }
         #hiddenEasterEgg:hover {
             opacity: 1;
-            transform: scale(1.3) rotate(15deg); /* Larger hover scale */
+            transform: scale(1.3) rotate(15deg);
         }
         #easterEggMessage {
             position: fixed;
-            bottom: 80px;
-            right: 20px;
+            bottom: 5rem; /* ~80px */
+            right: 1.25rem; /* ~20px */
             background-color: #fff3f3;
-            border: 1px solid #ff69b4;
-            padding: 10px 15px;
-            border-radius: 10px;
-            font-size: 1.1em;
+            border: 0.0625rem solid #ff69b4; /* ~1px */
+            padding: 0.625rem 0.9375rem; /* ~10px 15px */
+            border-radius: 0.625rem; /* ~10px */
+            font-size: 0.95rem; /* Adjusted */
             color: #d81b60;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.5s ease, visibility 0.5s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 0.25rem 0.9375rem rgba(0,0,0,0.1); /* ~0 4px 15px */
             z-index: 101;
+            font-family: 'Inter', sans-serif;
         }
         #easterEggMessage.show {
             opacity: 1;
@@ -369,82 +329,68 @@
         }
 
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
+        /* --- RESPONSIVE ADJUSTMENTS (Mobile First) --- */
+
+        /* Small devices (phones, 320px and up) - Base styles are for these */
+
+        /* Medium devices (tablets, 600px and up) */
+        @media (min-width: 37.5em) { /* 600px / 16px = 37.5em */
             body {
-                padding: 10px; /* Reduce overall padding on small screens */
+                padding: 1.5rem; /* Slightly more padding for tablets */
             }
             .container {
-                padding: 30px; /* Adjusted padding for smaller screens */
-                margin-bottom: 25px;
+                padding: 2rem; /* ~32px */
             }
             h1 {
-                font-size: 2.2em;
-                margin-bottom: 15px;
+                font-size: 2.5rem;
             }
             h2 {
-                font-size: 1.8em;
+                font-size: 2rem;
             }
             p {
-                font-size: 0.95em;
-                margin-bottom: 20px;
-                max-width: 95%; /* More width on smaller screens */
+                font-size: 1rem;
             }
             textarea, input[type="text"] {
-                padding: 15px;
-                font-size: 1rem;
-                width: calc(100% - 30px); /* Adjust width for reduced padding */
-            }
-            textarea {
-                min-height: 100px;
-                max-height: 250px;
+                width: calc(100% - 2.5rem); /* Re-evaluate if needed, should be okay */
+                padding: 1rem; /* ~16px */
             }
             button {
-                padding: 14px 30px;
-                font-size: 1.1em;
-            }
-            .message {
-                font-size: 1em;
-                padding: 8px 0;
-            }
-            #retrievedConfession {
-                padding: 20px;
-                font-size: 1.2em;
-                min-height: 80px;
-                max-height: 300px;
+                font-size: 1.1rem;
+                padding: 0.9rem 2.2rem;
             }
             #hiddenEasterEgg {
-                bottom: 10px;
-                right: 10px;
-                font-size: 2.8em; /* Adjusted for mobile */
-            }
-            #easterEggMessage {
-                bottom: 60px;
-                right: 10px;
-                font-size: 0.9em;
+                font-size: 2.8rem;
             }
         }
 
-        /* Further adjustments for very small screens (e.g., iPhone SE) */
-        @media (max-width: 480px) {
+        /* Large devices (desktops, 900px and up) */
+        @media (min-width: 56.25em) { /* 900px / 16px = 56.25em */
+            body {
+                padding: 2rem; /* Even more padding on desktops */
+            }
             .container {
-                padding: 20px;
+                padding: 2.5rem; /* ~40px */
+                max-width: 50rem; /* ~800px max width */
             }
             h1 {
-                font-size: 1.8em;
+                font-size: 3rem;
             }
             h2 {
-                font-size: 1.5em;
+                font-size: 2.4rem;
             }
             p {
-                font-size: 0.9em;
+                font-size: 1.05rem;
+            }
+            textarea, input[type="text"] {
+                width: calc(100% - 3rem); /* Adjust for larger padding */
+                padding: 1.125rem; /* ~18px */
             }
             button {
-                padding: 12px 25px;
-                font-size: 1em;
+                font-size: 1.25rem;
+                padding: 1rem 2.375rem;
             }
-            #retrievedConfession {
-                font-size: 1.1em;
+            #hiddenEasterEgg {
+                font-size: 3.5rem;
             }
         }
     </style>
@@ -572,7 +518,7 @@
                 element.textContent = text;
                 element.classList.remove('success', 'error', 'show');
                 element.classList.add(type);
-                void element.offsetWidth;
+                void element.offsetWidth; // Trigger reflow to restart animation
                 element.classList.add('show');
 
                 setTimeout(() => {
@@ -594,8 +540,10 @@
             // --- Easter Egg 2: Konami Code ---
             const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
             let konamiCodePosition = 0;
+            let konamiTimeout; // To clear timeout for konami code reset
 
             document.addEventListener('keydown', (e) => {
+                clearTimeout(konamiTimeout); // Clear any existing timeout
                 if (e.key === konamiCode[konamiCodePosition]) {
                     konamiCodePosition++;
                     if (konamiCodePosition === konamiCode.length) {
@@ -605,26 +553,34 @@
                 } else {
                     konamiCodePosition = 0; // Reset if incorrect key is pressed
                 }
+                // Set a timeout to reset the konami code position if no key is pressed within a short period
+                konamiTimeout = setTimeout(() => {
+                    konamiCodePosition = 0;
+                }, 1500); // 1.5 seconds to press next key
             });
 
             function triggerKonamiEffect() {
-                alert("The whispers echo a secret song! You found a hidden delight, Sarthak!"); // More elegant alert
-                // Add a visual effect, e.g., temporary background change, or more hearts
-                const originalBg = document.body.style.background;
-                const originalBgSize = document.body.style.backgroundSize;
-                const originalBgPosition = document.body.style.backgroundPosition;
-                const originalAnimation = document.body.style.animation;
+                alert("The whispers echo a secret song! You found a hidden delight, Sarthak!");
+                const bodyStyle = document.body.style;
 
-                document.body.style.background = 'linear-gradient(135deg, #a7e9af, #84dcc6, #fffaa0)'; // Playful temporary gradient
-                document.body.style.backgroundSize = '100% 100%';
-                document.body.style.backgroundPosition = 'center center';
-                document.body.style.animation = 'none'; // Stop dancing animation during konami effect
+                // Save original styles
+                const originalBg = bodyStyle.background;
+                const originalBgSize = bodyStyle.backgroundSize;
+                const originalBgPosition = bodyStyle.backgroundPosition;
+                const originalAnimation = bodyStyle.animation;
 
+                // Apply new styles
+                bodyStyle.background = 'linear-gradient(135deg, #a7e9af, #84dcc6, #fffaa0)'; // Playful temporary gradient
+                bodyStyle.backgroundSize = '100% 100%';
+                bodyStyle.backgroundPosition = 'center center';
+                bodyStyle.animation = 'none'; // Stop dancing animation during konami effect
+
+                // Restore original styles after a delay
                 setTimeout(() => {
-                    document.body.style.background = originalBg; // Restore after 3 seconds
-                    document.body.style.backgroundSize = originalBgSize;
-                    document.body.style.backgroundPosition = originalBgPosition;
-                    document.body.style.animation = originalAnimation;
+                    bodyStyle.background = originalBg;
+                    bodyStyle.backgroundSize = originalBgSize;
+                    bodyStyle.backgroundPosition = originalBgPosition;
+                    bodyStyle.animation = originalAnimation;
                 }, 3000);
             }
 
@@ -643,7 +599,7 @@
                 greetingMessage = "Good night, Sarthak! Sweet dreams carry your deepest whispers.";
             }
 
-            // Display this greeting subtly in the console for now.
+            // Display this greeting subtly in the console.
             console.log(greetingMessage);
         });
     </script>
