@@ -10,11 +10,13 @@
             font-family: 'Arial', sans-serif;
             background-color: #f0f2f5;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             color: #333;
+            padding: 20px; /* Add some padding for smaller screens */
         }
 
         .container {
@@ -24,10 +26,16 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
             max-width: 600px;
-            width: 90%;
+            width: 100%;
+            margin-bottom: 30px; /* Space between the two sections */
         }
 
         h1 {
+            color: #4a4a4a;
+            margin-bottom: 15px;
+        }
+
+        h2 {
             color: #4a4a4a;
             margin-bottom: 15px;
         }
@@ -40,22 +48,33 @@
         textarea {
             width: calc(100% - 20px);
             padding: 15px;
+            margin-bottom: 15px; /* Adjust margin for the pin input */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 15px;
             margin-bottom: 20px;
             border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 1rem;
-            resize: vertical; /* Allows vertical resizing */
-            box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+            box-sizing: border-box;
+            text-align: center; /* Center the pin text */
         }
 
-        textarea:focus {
+        textarea:focus, input[type="text"]:focus {
             outline: none;
-            border-color: #6a0dad; /* A calming purple */
+            border-color: #6a0dad;
             box-shadow: 0 0 8px rgba(106, 13, 173, 0.2);
         }
 
         button {
-            background-color: #6a0dad; /* Calming purple */
+            background-color: #6a0dad;
             color: white;
             padding: 12px 25px;
             border: none;
@@ -67,7 +86,7 @@
         }
 
         button:hover {
-            background-color: #530a84; /* Darker purple on hover */
+            background-color: #530a84;
             transform: translateY(-2px);
         }
 
@@ -78,61 +97,133 @@
         .message {
             margin-top: 25px;
             font-size: 1.1rem;
-            color: #28a745; /* Success green */
             font-weight: bold;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            transition: opacity 0.5s ease-in-out, color 0.3s ease;
+            min-height: 25px; /* Prevent layout shift */
+        }
+
+        .message.success {
+            color: #28a745; /* Success green */
+        }
+
+        .message.error {
+            color: #dc3545; /* Error red */
         }
 
         .message.show {
             opacity: 1;
         }
+
+        #retrievedConfession {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px dashed #ccc;
+            border-radius: 8px;
+            text-align: left;
+            white-space: pre-wrap; /* Preserves formatting and line breaks */
+            word-wrap: break-word; /* Breaks long words */
+            min-height: 50px;
+            display: none; /* Hidden by default */
+        }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h1>Welcome to The Confession Box</h1>
-        <p>A private space for you to express your feelings and let them go. What you write here stays here, unseen by anyone else.</p>
+        <h1>Write Your Confession</h1>
+        <p>Type your feelings below. To retrieve it later, enter a PIN. Your confession will be saved securely on this device only.</p>
         <textarea id="confessionText" placeholder="Write your feelings here..." rows="10"></textarea>
-        <button id="releaseButton">Release Your Feelings</button>
-        <div id="message" class="message"></div>
+        <input type="text" id="confessionPin" placeholder="Enter a PIN to remember this confession" maxlength="10">
+        <button id="saveButton">Save My Confession</button>
+        <div id="saveMessage" class="message"></div>
+    </div>
+
+    <div class="container">
+        <h2>Retrieve a Confession</h2>
+        <p>Enter the PIN to view your saved confession.</p>
+        <input type="text" id="retrievePin" placeholder="Enter the PIN to retrieve">
+        <button id="retrieveButton">Retrieve Confession</button>
+        <div id="retrieveMessage" class="message"></div>
+        <div id="retrievedConfession"></div>
     </div>
 
     <script>
         // JavaScript Functionality
         document.addEventListener('DOMContentLoaded', () => {
             const confessionTextarea = document.getElementById('confessionText');
-            const releaseButton = document.getElementById('releaseButton');
-            const messageDiv = document.getElementById('message');
+            const confessionPinInput = document.getElementById('confessionPin');
+            const saveButton = document.getElementById('saveButton');
+            const saveMessageDiv = document.getElementById('saveMessage');
 
-            releaseButton.addEventListener('click', () => {
+            const retrievePinInput = document.getElementById('retrievePin');
+            const retrieveButton = document.getElementById('retrieveButton');
+            const retrieveMessageDiv = document.getElementById('retrieveMessage');
+            const retrievedConfessionDiv = document.getElementById('retrievedConfession');
+
+            // --- Function to save the confession ---
+            saveButton.addEventListener('click', () => {
                 const confession = confessionTextarea.value.trim();
+                const pin = confessionPinInput.value.trim();
 
-                if (confession !== '') {
-                    // Display a message indicating the feelings were "released"
-                    messageDiv.textContent = "Your feelings have been released into the ether. They are safe and unseen.";
-                    messageDiv.classList.add('show');
+                // Check if both fields are filled
+                if (confession === '' || pin === '') {
+                    displayMessage(saveMessageDiv, "Please write something and enter a PIN.", 'error');
+                    return;
+                }
 
-                    // Clear the textarea after a brief delay
-                    setTimeout(() => {
-                        confessionTextarea.value = '';
-                        messageDiv.classList.remove('show');
-                    }, 3000); // Message shows for 3 seconds
+                // Create a unique key using the PIN
+                // Using a prefix like 'confession-' helps avoid conflicts with other localStorage items
+                const key = `confession-${pin}`;
 
-                    // Important: The confession text is NOT sent to any server,
-                    // nor is it stored persistently in the browser.
-                    // This ensures absolute privacy ("no one can see it").
+                // Store the confession in localStorage
+                // localStorage is used here to make it accessible across sessions on the same device.
+                localStorage.setItem(key, confession);
+
+                // Display a success message and clear fields
+                displayMessage(saveMessageDiv, "Your confession has been saved! You can retrieve it with your PIN.", 'success');
+                confessionTextarea.value = '';
+                confessionPinInput.value = '';
+            });
+
+            // --- Function to retrieve the confession ---
+            retrieveButton.addEventListener('click', () => {
+                const pin = retrievePinInput.value.trim();
+                const key = `confession-${pin}`;
+
+                // Retrieve the confession from localStorage
+                const storedConfession = localStorage.getItem(key);
+
+                if (storedConfession) {
+                    // PIN is correct, show the confession
+                    displayMessage(retrieveMessageDiv, "Confession retrieved!", 'success');
+                    retrievedConfessionDiv.textContent = storedConfession;
+                    retrievedConfessionDiv.style.display = 'block'; // Show the div
 
                 } else {
-                    messageDiv.textContent = "Please write something before releasing.";
-                    messageDiv.style.color = '#dc3545'; // Error red
-                    messageDiv.classList.add('show');
-                    setTimeout(() => {
-                        messageDiv.classList.remove('show');
-                        messageDiv.style.color = '#28a745'; // Reset to green
-                    }, 3000);
+                    // PIN is wrong or not found
+                    displayMessage(retrieveMessageDiv, "Wrong PIN or confession not found.", 'error');
+                    retrievedConfessionDiv.style.display = 'none'; // Hide the div
+                    retrievedConfessionDiv.textContent = ''; // Clear any old content
                 }
             });
+
+            // --- Helper function to display messages ---
+            function displayMessage(element, text, type) {
+                element.textContent = text;
+                element.classList.remove('success', 'error'); // Remove previous types
+                element.classList.add(type, 'show');
+
+                // Automatically hide the message after a few seconds
+                setTimeout(() => {
+                    element.classList.remove('show');
+                    // Optionally clear the text after hiding if it's an error/temporary message
+                    if (type === 'error') {
+                        element.textContent = '';
+                    }
+                }, 4000); // Message displays for 4 seconds
+            }
         });
     </script>
 </body>
