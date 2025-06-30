@@ -3,395 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Love Whisper Box</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Discover The Love Whisper Box!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Dancing+Script:wght@700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* General Styles & Body Background */
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f0e6f6 0%, #ffe6ee 100%); /* Soft gradient background */
+            background: linear-gradient(135deg, #a8dadc 0%, #ffe6a7 100%); /* Playful gradient */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            color: #4a4a4a;
-            padding: 20px;
-            overflow-x: hidden; /* Hide horizontal overflow */
+            color: #333;
+            overflow: hidden; /* Hide overflow for animations */
+            position: relative; /* For absolutely positioned elements */
         }
 
-        /* Animated Background Elements (Hearts/Sparkles) */
-        .heart-animation {
+        /* Goofy Floating Shapes */
+        .shape {
             position: absolute;
-            background-color: rgba(255, 105, 180, 0.5); /* Pink hearts */
-            width: 15px;
-            height: 15px;
-            transform: rotate(-45deg);
-            animation: floatHeart 15s infinite ease-in-out;
-            pointer-events: none; /* Allows clicks to pass through */
-            z-index: -1; /* Behind content */
-            opacity: 0; /* Start invisible */
-        }
-
-        .heart-animation:before,
-        .heart-animation:after {
-            content: '';
-            position: absolute;
-            width: 15px;
-            height: 15px;
+            background-color: rgba(255, 255, 255, 0.5);
             border-radius: 50%;
-            background-color: rgba(255, 105, 180, 0.5);
+            opacity: 0;
+            animation: floatAndFade 15s infinite ease-in-out;
+            pointer-events: none;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
         }
 
-        .heart-animation:before {
-            top: -7.5px;
-            left: 0;
+        .shape:nth-child(1) { width: 40px; height: 40px; left: 10%; top: 20%; background-color: rgba(255, 160, 180, 0.6); animation-delay: 0s; }
+        .shape:nth-child(2) { width: 60px; height: 60px; left: 30%; top: 50%; background-color: rgba(180, 255, 160, 0.6); animation-delay: 3s; }
+        .shape:nth-child(3) { width: 25px; height: 25px; left: 50%; top: 10%; background-color: rgba(160, 180, 255, 0.6); animation-delay: 6s; border-radius: 0; transform: rotate(45deg); } /* Square */
+        .shape:nth-child(4) { width: 50px; height: 50px; left: 70%; top: 70%; background-color: rgba(255, 220, 160, 0.6); animation-delay: 9s; }
+        .shape:nth-child(5) { width: 35px; height: 35px; left: 90%; top: 40%; background-color: rgba(200, 160, 255, 0.6); animation-delay: 12s; border-radius: 0; } /* Another Square */
+        .shape:nth-child(6) { width: 45px; height: 45px; left: 20%; top: 80%; background-color: rgba(160, 255, 220, 0.6); animation-delay: 15s; }
+        .shape:nth-child(7) { width: 55px; height: 55px; left: 40%; top: 30%; background-color: rgba(255, 160, 220, 0.6); animation-delay: 18s; }
+        .shape:nth-child(8) { width: 30px; height: 30px; left: 60%; top: 60%; background-color: rgba(220, 255, 160, 0.6); animation-delay: 21s; border-radius: 0; transform: rotate(-30deg); }
+        .shape:nth-child(9) { width: 70px; height: 70px; left: 80%; top: 90%; background-color: rgba(160, 220, 255, 0.6); animation-delay: 24s; }
+        .shape:nth-child(10) { width: 20px; height: 20px; left: 5%; top: 5%; background-color: rgba(255, 255, 160, 0.6); animation-delay: 27s; }
+
+        @keyframes floatAndFade {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(-50px) rotate(360deg); opacity: 0; }
         }
 
-        .heart-animation:after {
-            left: 7.5px;
-            top: 0;
+        /* Main Content Container */
+        .intro-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+            z-index: 1; /* Above background elements */
+            animation: bounceIn 1.5s ease-out; /* Main entrance animation */
+            overflow: hidden; /* For inner animations */
         }
 
-        @keyframes floatHeart {
-            0% {
-                transform: translateY(100vh) rotate(-45deg) scale(0.5);
-                opacity: 0;
+        @keyframes bounceIn {
+            0%, 20%, 40%, 60%, 80%, 100% {
+                -webkit-transition-timing-function: cubic-bezier(0.215, .61, .355, 1);
+                transition-timing-function: cubic-bezier(0.215, .61, .355, 1)
             }
-            25% {
-                opacity: 0.8;
+            0% {
+                opacity: 0;
+                -webkit-transform: scale3d(.3, .3, .3);
+                transform: scale3d(.3, .3, .3)
+            }
+            20% {
+                -webkit-transform: scale3d(1.1, 1.1, 1.1);
+                transform: scale3d(1.1, 1.1, 1.1)
+            }
+            40% {
+                -webkit-transform: scale3d(.9, .9, .9);
+                transform: scale3d(.9, .9, .9)
+            }
+            60% {
+                opacity: 1;
+                -webkit-transform: scale3d(1.03, 1.03, 1.03);
+                transform: scale3d(1.03, 1.03, 1.03)
+            }
+            80% {
+                -webkit-transform: scale3d(.97, .97, .97);
+                transform: scale3d(.97, .97, .97)
             }
             100% {
-                transform: translateY(-50px) rotate(-45deg) scale(1.2);
-                opacity: 0;
+                opacity: 1;
+                -webkit-transform: scale3d(1, 1, 1);
+                transform: scale3d(1, 1, 1)
             }
         }
 
-        /* Container Styling */
-        .container {
-            background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); /* More prominent shadow */
-            text-align: center;
-            max-width: 650px;
-            width: 100%;
-            margin-bottom: 30px;
-            animation: fadeIn 1s ease-out; /* Main container entrance animation */
+        h1 {
+            font-family: 'Bangers', cursive; /* Goofy, impactful font */
+            color: #e63946; /* Vibrant red */
+            font-size: 4.5em; /* Very large heading */
+            margin-bottom: 25px;
+            text-shadow: 5px 5px 0px #f8d0a0, 7px 7px 0px #ffe6a7; /* Goofy shadow */
+            animation: popIn 1s ease-out forwards;
+            position: relative; /* For pseudo-elements */
+            display: inline-block; /* To apply animation correctly */
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            70% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        /* Goofy blinking eyes/stars effect */
+        h1::before, h1::after {
+            content: '✨'; /* Twinkling star emoji */
+            position: absolute;
+            font-size: 0.6em;
+            animation: twinkle 1s infinite alternate;
+        }
+        h1::before { top: 0px; left: -10px; animation-delay: 0.2s; }
+        h1::after { bottom: 0px; right: -10px; animation-delay: 0.5s; }
+
+        @keyframes twinkle {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1.2); }
+        }
+
+        .explanation p {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #457b9d; /* Softer blue */
+            margin-bottom: 35px;
+            animation: slideInText 1s ease-out forwards;
+            animation-delay: 0.8s;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes slideInText {
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Headings & Paragraphs */
-        h1, h2 {
-            font-family: 'Dancing Script', cursive; /* Elegant script font */
-            color: #8a2be2; /* Deep purple */
-            margin-bottom: 20px;
-            font-size: 2.8em; /* Larger headings */
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.05);
-        }
-
-        h2 {
-            font-size: 2.2em;
-        }
-
-        p {
-            font-family: 'Poppins', sans-serif;
+        .feature {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin-bottom: 25px;
-            line-height: 1.7;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            animation: scaleIn 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .feature:nth-child(1) { animation-delay: 1.2s; }
+        .feature:nth-child(2) { animation-delay: 1.5s; }
+        .feature:nth-child(3) { animation-delay: 1.8s; }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-right: 20px;
+            color: #2a9d8f; /* Teal color */
+            animation: bounce 2s infinite ease-in-out;
+            transform-origin: bottom;
+        }
+
+        .feature-text {
+            text-align: left;
             font-size: 1.1em;
-            color: #555;
+            color: #3d405b; /* Darker blue-grey */
         }
 
-        /* Textarea and Input Fields */
-        textarea, input[type="text"] {
-            width: calc(100% - 30px); /* Adjust for padding */
-            padding: 18px;
-            margin-bottom: 18px;
-            border: 1px solid #e0b0ff; /* Soft purple border */
-            border-radius: 10px;
-            font-size: 1.05rem;
-            box-sizing: border-box;
-            background-color: #fcfcff;
-            transition: all 0.3s ease;
-            box-shadow: inset 0 1px 5px rgba(0,0,0,0.05);
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-7px); }
         }
 
-        /* Scrollbar specific styling for textarea */
-        textarea {
-            resize: vertical; /* Allows vertical resizing */
-            overflow-y: auto; /* Adds scrollbar when content overflows vertically */
-            min-height: 100px; /* Minimum height for textarea */
-            max-height: 300px; /* Maximum height before scrolling */
-        }
-
-        textarea::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        textarea::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        textarea::-webkit-scrollbar-thumb {
-            background: #b08dff; /* A lighter purple for scrollbar */
-            border-radius: 10px;
-        }
-
-        textarea::-webkit-scrollbar-thumb:hover {
-            background: #8a2be2; /* Darker purple on hover */
-        }
-
-        textarea:focus, input[type="text"]:focus {
-            outline: none;
-            border-color: #8a2be2;
-            box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
-            background-color: #ffffff;
-        }
-
-        /* Buttons */
-        button {
-            background: linear-gradient(45deg, #8a2be2, #ff69b4); /* Gradient from purple to pink */
+        .call-to-action button {
+            background: linear-gradient(45deg, #f4a261, #e76f51); /* Warm gradient */
             color: white;
-            padding: 15px 35px;
+            padding: 18px 40px;
             border: none;
-            border-radius: 30px; /* Pill-shaped buttons */
-            font-size: 1.2em;
-            font-weight: 600;
+            border-radius: 35px;
+            font-size: 1.5em;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-            letter-spacing: 0.5px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
             text-transform: uppercase;
+            animation: pulse 2s infinite ease-in-out; /* Pulsing effect */
+            margin-top: 30px;
         }
 
-        button:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-            background: linear-gradient(45deg, #ff69b4, #8a2be2); /* Reverse gradient on hover */
+        .call-to-action button:hover {
+            transform: translateY(-7px) scale(1.05);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #e76f51, #f4a261);
+            animation: none; /* Stop pulsing on hover */
         }
 
-        button:active {
-            transform: translateY(0);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Message Display */
-        .message {
-            margin-top: 25px;
-            font-size: 1.15em;
-            font-weight: 600;
-            opacity: 0;
-            min-height: 25px;
-            padding: 8px 0;
-            border-radius: 5px;
-            animation: messageFadeIn 0.5s ease-out forwards;
-        }
-
-        @keyframes messageFadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message.success {
-            color: #28a745;
-            background-color: rgba(40, 167, 69, 0.08);
-        }
-
-        .message.error {
-            color: #dc3545;
-            background-color: rgba(220, 53, 69, 0.08);
-        }
-
-        .message.show {
-            opacity: 1;
-        }
-
-        /* Retrieved Confession Display */
-        #retrievedConfession {
-            margin-top: 25px;
-            padding: 25px;
-            background-color: #fcf6ff; /* Very light purple */
-            border: 2px dashed #d8b0f7; /* Dashed purple border */
-            border-radius: 12px;
-            text-align: left;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            min-height: 80px; /* Minimum height */
-            max-height: 300px; /* Max height before scroll */
-            overflow-y: auto; /* Adds scrollbar when content overflows */
-            display: none;
-            font-size: 1.1em;
-            line-height: 1.8;
-            color: #666;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
-            animation: slideInUp 0.8s ease-out forwards;
-        }
-
-        /* Scrollbar styling for retrieved confession */
-        #retrievedConfession::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        #retrievedConfession::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        #retrievedConfession::-webkit-scrollbar-thumb {
-            background: #b08dff;
-            border-radius: 10px;
-        }
-
-        #retrievedConfession::-webkit-scrollbar-thumb:hover {
-            background: #8a2be2;
-        }
-
-
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); }
+            50% { transform: scale(1.03); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3); }
+            100% { transform: scale(1); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); }
         }
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
-            .container {
-                padding: 25px;
-                margin-bottom: 20px;
+            .intro-container {
+                padding: 30px;
             }
             h1 {
-                font-size: 2.2em;
+                font-size: 3em;
             }
-            h2 {
-                font-size: 1.8em;
-            }
-            p {
+            .explanation p {
                 font-size: 1em;
             }
-            button {
-                padding: 12px 25px;
-                font-size: 1em;
+            .feature {
+                flex-direction: column;
+                margin-bottom: 20px;
+            }
+            .feature-icon {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            .call-to-action button {
+                padding: 15px 30px;
+                font-size: 1.2em;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="heart-animation" style="left: 10%; top: 20%; animation-delay: 0s; transform: scale(0.6);"></div>
-    <div class="heart-animation" style="left: 30%; top: 50%; animation-delay: 2s; transform: scale(0.8);"></div>
-    <div class="heart-animation" style="left: 50%; top: 10%; animation-delay: 4s; transform: scale(0.7);"></div>
-    <div class="heart-animation" style="left: 70%; top: 70%; animation-delay: 6s; transform: scale(0.9);"></div>
-    <div class="heart-animation" style="left: 90%; top: 40%; animation-delay: 8s; transform: scale(0.5);"></div>
-    <div class="heart-animation" style="left: 20%; top: 80%; animation-delay: 10s; transform: scale(1);"></div>
-    <div class="heart-animation" style="left: 40%; top: 30%; animation-delay: 12s; transform: scale(0.75);"></div>
-    <div class="heart-animation" style="left: 60%; top: 60%; animation-delay: 14s; transform: scale(0.85);"></div>
-    <div class="heart-animation" style="left: 80%; top: 90%; animation-delay: 16s; transform: scale(0.65);"></div>
-    <div class="heart-animation" style="left: 5%; top: 5%; animation-delay: 18s; transform: scale(0.95);"></div>
+    <div class="shape" style="left: 10%; top: 20%; animation-delay: 0s;"></div>
+    <div class="shape" style="width: 50px; height: 50px; left: 25%; top: 15%; animation-delay: 1s; background-color: rgba(255, 220, 100, 0.6);"></div>
+    <div class="shape" style="width: 30px; height: 30px; left: 40%; top: 30%; animation-delay: 2s;"></div>
+    <div class="shape" style="width: 70px; height: 70px; left: 5%; top: 70%; animation-delay: 3s; background-color: rgba(100, 255, 220, 0.6); border-radius: 0; transform: rotate(-20deg);"></div>
+    <div class="shape" style="left: 60%; top: 5%; animation-delay: 4s;"></div>
+    <div class="shape" style="width: 45px; height: 45px; left: 80%; top: 25%; animation-delay: 5s; background-color: rgba(220, 100, 255, 0.6);"></div>
+    <div class="shape" style="left: 15%; top: 60%; animation-delay: 6s;"></div>
+    <div class="shape" style="width: 65px; height: 65px; left: 75%; top: 80%; animation-delay: 7s; background-color: rgba(255, 100, 160, 0.6); border-radius: 0; transform: rotate(15deg);"></div>
+    <div class="shape" style="left: 45%; top: 90%; animation-delay: 8s;"></div>
+    <div class="shape" style="width: 55px; height: 55px; left: 95%; top: 10%; animation-delay: 9s; background-color: rgba(100, 160, 255, 0.6);"></div>
+    <div class="shape" style="left: 20%; top: 0%; animation-delay: 10s;"></div>
+    <div class="shape" style="width: 35px; height: 35px; left: 70%; top: 40%; animation-delay: 11s; background-color: rgba(160, 255, 100, 0.6);"></div>
+    <div class="shape" style="left: 50%; top: 75%; animation-delay: 12s;"></div>
+    <div class="shape" style="width: 40px; height: 40px; left: 30%; top: 95%; animation-delay: 13s; background-color: rgba(255, 100, 100, 0.6); border-radius: 0;"></div>
+    <div class="shape" style="left: 85%; top: 55%; animation-delay: 14s;"></div>
 
+    <div class="intro-container">
+        <h1>Welcome, Soul-Seeker!</h1>
+        <div class="explanation">
+            <p>Ever held a secret close to your heart? A tender whisper meant for another, or perhaps a profound sentiment just for yourself? Now, there's a whimsical haven for those precious thoughts.</p>
+            <p>Behold, <strong>The Love Whisper Box</strong> &ndash; a magical digital sanctuary crafted just for you and your beloved sentiments!</p>
+        </div>
 
-    <div class="container">
-        <h1>Entrust Your Heart's Whispers</h1>
-        <p>Gently pen your deepest affections or heartfelt musings here. This sacred space preserves your words, unveiled only by your chosen key.</p>
-        <textarea id="confessionText" placeholder="Compose your cherished message or secret..." rows="10"></textarea>
-        <input type="text" id="confessionPin" placeholder="Devise a special key to reclaim this secret" maxlength="10">
-        <button id="saveButton">Seal My Revelation</button>
-        <div id="saveMessage" class="message"></div>
+        <div class="feature">
+            <span class="feature-icon">💖</span>
+            <span class="feature-text"><strong>Utterly Private:</strong> Your cherished words remain known only to you, or to whomever you choose to share your secret key with.</span>
+        </div>
+        <div class="feature">
+            <span class="feature-icon">🔐</span>
+            <span class="feature-text"><strong>Secured by Your Key:</strong> Each whisper is sealed with a unique passphrase, ensuring its intimate retrieval.</span>
+        </div>
+        <div class="feature">
+            <span class="feature-icon">✨</span>
+            <span class="feature-text"><strong>Aesthetic & Delightful:</strong> Experience your emotional journey within a beautifully designed space, adorned with charming animations.</span>
+        </div>
+
+        <div class="call-to-action">
+            <p>Ready to unburden your heart or explore a hidden message?</p>
+            <button onclick="window.location.href='whisper_box.html'">Step Into the Whisper Box</button>
+        </div>
     </div>
 
-    <div class="container">
-        <h2>Unveil a Cherished Emotion</h2>
-        <p>Present your unique key to rediscover the tender message or profound feeling once held within this ethereal box.</p>
-        <input type="text" id="retrievePin" placeholder="Enter your secret key to unveil">
-        <button id="retrieveButton">Summon the Whisper</button>
-        <div id="retrieveMessage" class="message"></div>
-        <div id="retrievedConfession"></div>
-    </div>
-
-    <script>
-        // JavaScript Functionality
-        document.addEventListener('DOMContentLoaded', () => {
-            const confessionTextarea = document.getElementById('confessionText');
-            const confessionPinInput = document.getElementById('confessionPin');
-            const saveButton = document.getElementById('saveButton');
-            const saveMessageDiv = document.getElementById('saveMessage');
-
-            const retrievePinInput = document.getElementById('retrievePin');
-            const retrieveButton = document.getElementById('retrieveButton');
-            const retrieveMessageDiv = document.getElementById('retrieveMessage');
-            const retrievedConfessionDiv = document.getElementById('retrievedConfession');
-
-            // --- Function to save the confession ---
-            saveButton.addEventListener('click', () => {
-                const confession = confessionTextarea.value.trim();
-                const pin = confessionPinInput.value.trim();
-
-                // Check if both fields are filled
-                if (confession === '' || pin === '') {
-                    displayMessage(saveMessageDiv, "Kindly compose your message AND provide a key for its safekeeping.", 'error');
-                    return;
-                }
-
-                // Create a unique key using the PIN
-                const key = `lovewhisper-${pin}`;
-
-                // Store the confession in localStorage
-                localStorage.setItem(key, confession);
-
-                // Display a success message and clear fields
-                displayMessage(saveMessageDiv, "Your revelation is now gracefully sealed! Remember your unique key for retrieval.", 'success');
-                confessionTextarea.value = '';
-                confessionPinInput.value = '';
-            });
-
-            // --- Function to retrieve the confession ---
-            retrieveButton.addEventListener('click', () => {
-                const pin = retrievePinInput.value.trim();
-                const key = `lovewhisper-${pin}`;
-
-                // Retrieve the confession from localStorage
-                const storedConfession = localStorage.getItem(key);
-
-                if (storedConfession) {
-                    // PIN is correct, show the confession
-                    displayMessage(retrieveMessageDiv, "Behold! The cherished whisper is now unveiled before you.", 'success');
-                    retrievedConfessionDiv.textContent = storedConfession;
-                    retrievedConfessionDiv.style.display = 'block'; // Show the div
-                    // Re-trigger animation by removing and re-adding class
-                    retrievedConfessionDiv.classList.remove('slideInUp');
-                    void retrievedConfessionDiv.offsetWidth; // Trigger reflow
-                    retrievedConfessionDiv.classList.add('slideInUp');
-                } else {
-                    // PIN is wrong or not found
-                    displayMessage(retrieveMessageDiv, "Alas, that key does not unlock any secrets here. Please verify your unique key.", 'error');
-                    retrievedConfessionDiv.style.display = 'none'; // Hide the div
-                    retrievedConfessionDiv.textContent = ''; // Clear any old content
-                }
-            });
-
-            // --- Helper function to display messages ---
-            function displayMessage(element, text, type) {
-                element.textContent = text;
-                element.classList.remove('success', 'error', 'show'); // Reset classes
-                element.classList.add(type);
-
-                // Force reflow to re-trigger animation
-                void element.offsetWidth;
-                element.classList.add('show');
-
-                // Automatically hide the message after a few seconds
-                setTimeout(() => {
-                    element.classList.remove('show');
-                    if (type === 'error') {
-                        element.textContent = '';
-                    }
-                }, 5000); // Message displays for 5 seconds
-            }
-        });
-    </script>
 </body>
 </html>
