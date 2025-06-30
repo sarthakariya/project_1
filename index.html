@@ -6,6 +6,14 @@
     <title>Discover The Love Whisper Box!</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        html, body { /* Make both html and body elements flexible */
+            height: 100%; /* Important for body to fill viewport */
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scrolling unless specifically needed */
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             /* Soft pinkish gradient background */
@@ -14,19 +22,28 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
+            min-height: 100vh; /* This ensures it takes at least full viewport height */
             color: #4a4a4a;
-            overflow: hidden; /* Hide overflow for animations initially */
             position: relative;
+            overflow-y: auto; /* THIS IS THE KEY CHANGE: Allows body to scroll vertically */
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: #ff8ab4 #f8bbd0; /* Firefox */
         }
 
-        /* Responsive body sizing for phone */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px; /* Add some padding */
-                overflow-y: auto; /* Allow scrolling on small devices if content is tall */
-            }
+        /* Custom scrollbar for Webkit browsers (body) */
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+        body::-webkit-scrollbar-track {
+            background: #f8bbd0; /* Light pink */
+            border-radius: 10px;
+        }
+        body::-webkit-scrollbar-thumb {
+            background: #ff8ab4; /* Brighter pink */
+            border-radius: 10px;
+        }
+        body::-webkit-scrollbar-thumb:hover {
+            background: #e65288; /* Darker pink on hover */
         }
 
         /* Animated Background Elements (Hearts/Sparkles) */
@@ -88,26 +105,8 @@
             position: relative;
             z-index: 1;
             animation: fadeInScale 1.5s ease-out; /* Main entrance animation */
-            overflow-y: auto; /* Enable vertical scrolling */
-            max-height: 90vh; /* Limit height to allow scrolling on smaller screens */
-            scrollbar-width: thin; /* Firefox */
-            scrollbar-color: #ff8ab4 #f8bbd0; /* Firefox */
-        }
-
-        /* Custom scrollbar for Webkit browsers */
-        .intro-container::-webkit-scrollbar {
-            width: 8px;
-        }
-        .intro-container::-webkit-scrollbar-track {
-            background: #f8bbd0; /* Light pink */
-            border-radius: 10px;
-        }
-        .intro-container::-webkit-scrollbar-thumb {
-            background: #ff8ab4; /* Brighter pink */
-            border-radius: 10px;
-        }
-        .intro-container::-webkit-scrollbar-thumb:hover {
-            background: #e65288; /* Darker pink on hover */
+            /* Removed overflow-y: auto here, as body will now handle it */
+            /* max-height: 90vh; This is no longer strictly necessary, but can be kept if you want the *inner* box to scroll first */
         }
 
 
@@ -241,7 +240,7 @@
         @media (max-width: 768px) {
             .intro-container {
                 padding: 25px;
-                max-height: 95vh; /* Allow more height for scrolling on small screens */
+                /* max-height: unset; removed to let content dictate height and body scroll */
             }
             h1 {
                 font-size: 2.8em;
