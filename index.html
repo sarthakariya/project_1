@@ -1,17 +1,3 @@
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
-
-// --- Firebase Configuration ---
-const firebaseConfig = {
-    apiKey: "AIzaSyB-YOUR_ACTUAL_API_KEY", // <--- THIS IS YOUR ACTUAL KEY
-    authDomain: "sarthak-c4d04.firebaseapp.com", // <--- THIS IS YOUR ACTUAL AUTH DOMAIN
-    projectId: "sarthak-c4d04", // <--- THIS IS YOUR ACTUAL PROJECT ID
-    storageBucket: "sarthak-c4d04.appspot.com", // <--- THIS IS YOUR ACTUAL STORAGE BUCKET
-    messagingSenderId: "123456789012", // <--- THIS IS YOUR ACTUAL SENDER ID
-    appId: "1:123456789012:web:your_app_id_here", // <--- THIS IS YOUR ACTUAL APP ID
-    databaseURL: "https://sarthak-c4d04-default-rtdb.asia-southeast1.firebasedatabase.app" // <--- THIS IS YOUR ACTUAL DATABASE URL (from your screenshot!)
-};
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,6 +5,10 @@ const firebaseConfig = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Love Whisper Box: A Sanctuary of Sentiments</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+
     <style>
         /* Universal Box-Sizing for predictable layout - CRITICAL FOR FITTING */
         *, *::before, *::after {
@@ -529,6 +519,26 @@ const firebaseConfig = {
     <div id="easterEggMessage">A little secret just for you, Sarthak! 😊</div>
 
     <script>
+        // --- Firebase Configuration ---
+        // YOUR ACTUAL Firebase project credentials (copied from your previous message)
+        const firebaseConfig = {
+            apiKey: "AIzaSyD8Nq1hVl-Crdq1z0BFqIfxYzvRZA6EtxU",
+            authDomain: "sarthak-c4d04.firebaseapp.com",
+            databaseURL: "https://sarthak-c4d04-default-rtdb.asia-southeast1.firebasedatabase.app", // This URL matches your screenshot!
+            projectId: "sarthak-c4d04",
+            storageBucket: "sarthak-c4d04.firebasestorage.app",
+            messagingSenderId: "661417894674",
+            appId: "1:661417894674:web:dd108e55a63113251bc9cb",
+            measurementId: "G-83FGND293L" // Optional, can be removed if not using Analytics
+        };
+
+        // Initialize Firebase using the global 'firebase' object from compat SDKs
+        firebase.initializeApp(firebaseConfig);
+
+        // Get a reference to the Realtime Database service
+        const database = firebase.database();
+
+
         // JavaScript Functionality
         document.addEventListener('DOMContentLoaded', () => {
             const confessionTextarea = document.getElementById('confessionText');
@@ -568,7 +578,7 @@ const firebaseConfig = {
             retrieveButton.addEventListener('click', createRipple);
 
 
-            // --- Function to save the confession ---
+            // --- Function to save the confession to Firebase ---
             saveButton.addEventListener('click', () => {
                 const confession = confessionTextarea.value.trim();
                 const pin = confessionPinInput.value.trim();
@@ -578,32 +588,54 @@ const firebaseConfig = {
                     return;
                 }
 
-                const key = `lovewhisper-${pin}`;
-                localStorage.setItem(key, confession);
-
-                displayMessage(saveMessageDiv, "Your message is saved! Give your partner this key to read it.", 'success');
-                confessionTextarea.value = '';
-                confessionPinInput.value = '';
+                // Use Firebase to save the data
+                // 'confessions/' is a node in your database, 'pin' is the unique key for each message
+                database.ref('confessions/' + pin).set(confession)
+                    .then(() => {
+                        displayMessage(saveMessageDiv, `Your message is saved! Give your partner this key: '${pin}' to read it.`, 'success');
+                        confessionTextarea.value = '';
+                        confessionPinInput.value = '';
+                    })
+                    .catch((error) => {
+                        displayMessage(saveMessageDiv, `Error saving message: ${error.message}`, 'error');
+                        console.error("Error saving message: ", error);
+                    });
             });
 
-            // --- Function to retrieve the confession ---
+            // --- Function to retrieve the confession from Firebase ---
             retrieveButton.addEventListener('click', () => {
                 const pin = retrievePinInput.value.trim();
-                const key = `lovewhisper-${pin}`;
-                const storedConfession = localStorage.getItem(key);
 
-                if (storedConfession) {
-                    displayMessage(retrieveMessageDiv, "Here is the special message!", 'success');
-                    retrievedConfessionDiv.textContent = storedConfession;
-                    retrievedConfessionDiv.style.display = 'block';
-                    retrievedConfessionDiv.classList.remove('slideInFromLeft');
-                    void retrievedConfessionDiv.offsetWidth; // Trigger reflow to restart animation
-                    retrievedConfessionDiv.classList.add('slideInFromLeft');
-                } else {
-                    displayMessage(retrieveMessageDiv, "Sorry, that key didn't work. Please check the key your partner gave you.", 'error');
+                if (pin === '') {
+                    displayMessage(retrieveMessageDiv, "Please enter the key to retrieve the message.", 'error');
                     retrievedConfessionDiv.style.display = 'none';
                     retrievedConfessionDiv.textContent = '';
+                    return;
                 }
+
+                // Use Firebase to retrieve the data
+                database.ref('confessions/' + pin).once('value')
+                    .then((snapshot) => {
+                        const storedConfession = snapshot.val(); // .val() gets the data
+                        if (storedConfession) {
+                            displayMessage(retrieveMessageDiv, "Here is the special message!", 'success');
+                            retrievedConfessionDiv.textContent = storedConfession;
+                            retrievedConfessionDiv.style.display = 'block';
+                            retrievedConfessionDiv.classList.remove('slideInFromLeft');
+                            void retrievedConfessionDiv.offsetWidth; // Trigger reflow to restart animation
+                            retrievedConfessionDiv.classList.add('slideInFromLeft');
+                        } else {
+                            displayMessage(retrieveMessageDiv, "Sorry, that key didn't work. Please check the key your partner gave you.", 'error');
+                            retrievedConfessionDiv.style.display = 'none';
+                            retrievedConfessionDiv.textContent = '';
+                        }
+                    })
+                    .catch((error) => {
+                        displayMessage(retrieveMessageDiv, `Error retrieving message: ${error.message}`, 'error');
+                        console.error("Error retrieving message: ", error);
+                        retrievedConfessionDiv.style.display = 'none';
+                        retrievedConfessionDiv.textContent = '';
+                    });
             });
 
             // --- Helper function to display messages ---
@@ -637,7 +669,7 @@ const firebaseConfig = {
 
             document.addEventListener('keydown', (e) => {
                 clearTimeout(konamiTimeout);
-                if (e.key === konamiCode[konamiCodePosition]) {
+                if (e.key.toLowerCase() === konamiCode[konamiCodePosition]) { // Use toLowerCase for 'b' and 'a'
                     konamiCodePosition++;
                     if (konamiCodePosition === konamiCode.length) {
                         konamiCodePosition = 0;
