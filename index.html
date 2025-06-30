@@ -18,7 +18,7 @@
             margin: 0;
             color: #4a4a4a;
             padding: 20px;
-            overflow: hidden; /* Hide overflow for animations */
+            overflow-x: hidden; /* Hide horizontal overflow */
         }
 
         /* Animated Background Elements (Hearts/Sparkles) */
@@ -115,15 +115,36 @@
             border: 1px solid #e0b0ff; /* Soft purple border */
             border-radius: 10px;
             font-size: 1.05rem;
-            resize: vertical;
             box-sizing: border-box;
             background-color: #fcfcff;
             transition: all 0.3s ease;
             box-shadow: inset 0 1px 5px rgba(0,0,0,0.05);
         }
 
-        textarea::placeholder, input[type="text"]::placeholder {
-            color: #a0a0a0;
+        /* Scrollbar specific styling for textarea */
+        textarea {
+            resize: vertical; /* Allows vertical resizing */
+            overflow-y: auto; /* Adds scrollbar when content overflows vertically */
+            min-height: 100px; /* Minimum height for textarea */
+            max-height: 300px; /* Maximum height before scrolling */
+        }
+
+        textarea::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        textarea::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        textarea::-webkit-scrollbar-thumb {
+            background: #b08dff; /* A lighter purple for scrollbar */
+            border-radius: 10px;
+        }
+
+        textarea::-webkit-scrollbar-thumb:hover {
+            background: #8a2be2; /* Darker purple on hover */
         }
 
         textarea:focus, input[type="text"]:focus {
@@ -201,7 +222,9 @@
             text-align: left;
             white-space: pre-wrap;
             word-wrap: break-word;
-            min-height: 80px;
+            min-height: 80px; /* Minimum height */
+            max-height: 300px; /* Max height before scroll */
+            overflow-y: auto; /* Adds scrollbar when content overflows */
             display: none;
             font-size: 1.1em;
             line-height: 1.8;
@@ -209,6 +232,26 @@
             box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
             animation: slideInUp 0.8s ease-out forwards;
         }
+
+        /* Scrollbar styling for retrieved confession */
+        #retrievedConfession::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #retrievedConfession::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        #retrievedConfession::-webkit-scrollbar-thumb {
+            background: #b08dff;
+            border-radius: 10px;
+        }
+
+        #retrievedConfession::-webkit-scrollbar-thumb:hover {
+            background: #8a2be2;
+        }
+
 
         @keyframes slideInUp {
             from { opacity: 0; transform: translateY(30px); }
@@ -252,19 +295,19 @@
 
 
     <div class="container">
-        <h1>Share Your Heart's Whispers</h1>
-        <p>Pour out your feelings here, exclusively for that special someone or just for your own peace of mind. Your secret will be safely nestled away, waiting for your unique key.</p>
-        <textarea id="confessionText" placeholder="Write your heartfelt message or secret here..." rows="10"></textarea>
-        <input type="text" id="confessionPin" placeholder="Choose a special PIN to unlock this secret (e.g., your anniversary date)" maxlength="10">
-        <button id="saveButton">Seal My Secret</button>
+        <h1>Entrust Your Heart's Whispers</h1>
+        <p>Gently pen your deepest affections or heartfelt musings here. This sacred space preserves your words, unveiled only by your chosen key.</p>
+        <textarea id="confessionText" placeholder="Compose your cherished message or secret..." rows="10"></textarea>
+        <input type="text" id="confessionPin" placeholder="Devise a special key to reclaim this secret" maxlength="10">
+        <button id="saveButton">Seal My Revelation</button>
         <div id="saveMessage" class="message"></div>
     </div>
 
     <div class="container">
-        <h2>Unveil a Hidden Emotion</h2>
-        <p>Enter the secret PIN to reveal the heartfelt message you (or someone special) once entrusted to this box.</p>
-        <input type="text" id="retrievePin" placeholder="Enter the secret PIN to retrieve">
-        <button id="retrieveButton">Reveal the Whisper</button>
+        <h2>Unveil a Cherished Emotion</h2>
+        <p>Present your unique key to rediscover the tender message or profound feeling once held within this ethereal box.</p>
+        <input type="text" id="retrievePin" placeholder="Enter your secret key to unveil">
+        <button id="retrieveButton">Summon the Whisper</button>
         <div id="retrieveMessage" class="message"></div>
         <div id="retrievedConfession"></div>
     </div>
@@ -289,18 +332,18 @@
 
                 // Check if both fields are filled
                 if (confession === '' || pin === '') {
-                    displayMessage(saveMessageDiv, "Please pour out your feelings AND choose a special PIN.", 'error');
+                    displayMessage(saveMessageDiv, "Kindly compose your message AND provide a key for its safekeeping.", 'error');
                     return;
                 }
 
                 // Create a unique key using the PIN
-                const key = `lovewhisper-${pin}`; // Changed key prefix for the new theme
+                const key = `lovewhisper-${pin}`;
 
                 // Store the confession in localStorage
                 localStorage.setItem(key, confession);
 
                 // Display a success message and clear fields
-                displayMessage(saveMessageDiv, "Your secret has been beautifully sealed! Remember your PIN to retrieve it.", 'success');
+                displayMessage(saveMessageDiv, "Your revelation is now gracefully sealed! Remember your unique key for retrieval.", 'success');
                 confessionTextarea.value = '';
                 confessionPinInput.value = '';
             });
@@ -315,7 +358,7 @@
 
                 if (storedConfession) {
                     // PIN is correct, show the confession
-                    displayMessage(retrieveMessageDiv, "The whisper is unveiled! Here is your heartfelt message.", 'success');
+                    displayMessage(retrieveMessageDiv, "Behold! The cherished whisper is now unveiled before you.", 'success');
                     retrievedConfessionDiv.textContent = storedConfession;
                     retrievedConfessionDiv.style.display = 'block'; // Show the div
                     // Re-trigger animation by removing and re-adding class
@@ -324,7 +367,7 @@
                     retrievedConfessionDiv.classList.add('slideInUp');
                 } else {
                     // PIN is wrong or not found
-                    displayMessage(retrieveMessageDiv, "Hmm, that PIN doesn't seem to unlock any secrets here. Double-check?", 'error');
+                    displayMessage(retrieveMessageDiv, "Alas, that key does not unlock any secrets here. Please verify your unique key.", 'error');
                     retrievedConfessionDiv.style.display = 'none'; // Hide the div
                     retrievedConfessionDiv.textContent = ''; // Clear any old content
                 }
@@ -343,7 +386,6 @@
                 // Automatically hide the message after a few seconds
                 setTimeout(() => {
                     element.classList.remove('show');
-                    // Optionally clear the text after hiding if it's an error/temporary message
                     if (type === 'error') {
                         element.textContent = '';
                     }
