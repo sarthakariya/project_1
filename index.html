@@ -171,7 +171,7 @@
             border-radius: 5px;
             animation: messageFadeIn 0.5s ease-out forwards;
         }
-        
+
         @keyframes messageFadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -318,7 +318,10 @@
                     displayMessage(retrieveMessageDiv, "The whisper is unveiled! Here is your heartfelt message.", 'success');
                     retrievedConfessionDiv.textContent = storedConfession;
                     retrievedConfessionDiv.style.display = 'block'; // Show the div
-                    retrievedConfessionDiv.style.animation = 'slideInUp 0.8s ease-out forwards'; // Re-trigger animation
+                    // Re-trigger animation by removing and re-adding class
+                    retrievedConfessionDiv.classList.remove('slideInUp');
+                    void retrievedConfessionDiv.offsetWidth; // Trigger reflow
+                    retrievedConfessionDiv.classList.add('slideInUp');
                 } else {
                     // PIN is wrong or not found
                     displayMessage(retrieveMessageDiv, "Hmm, that PIN doesn't seem to unlock any secrets here. Double-check?", 'error');
@@ -340,6 +343,10 @@
                 // Automatically hide the message after a few seconds
                 setTimeout(() => {
                     element.classList.remove('show');
+                    // Optionally clear the text after hiding if it's an error/temporary message
+                    if (type === 'error') {
+                        element.textContent = '';
+                    }
                 }, 5000); // Message displays for 5 seconds
             }
         });
