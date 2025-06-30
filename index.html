@@ -4,144 +4,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discover The Love Whisper Box!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Dancing+Script:wght@700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #a8dadc 0%, #ffe6a7 100%); /* Playful gradient */
+            /* Soft pinkish gradient background */
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            color: #333;
-            overflow: hidden; /* Hide overflow for animations */
-            position: relative; /* For absolutely positioned elements */
+            color: #4a4a4a;
+            overflow: hidden; /* Hide overflow for animations initially */
+            position: relative;
         }
 
-        /* Goofy Floating Shapes */
-        .shape {
+        /* Responsive body sizing for phone */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px; /* Add some padding */
+                overflow-y: auto; /* Allow scrolling on small devices if content is tall */
+            }
+        }
+
+        /* Animated Background Elements (Hearts/Sparkles) */
+        .heart-animation {
             position: absolute;
-            background-color: rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            opacity: 0;
-            animation: floatAndFade 15s infinite ease-in-out;
+            background-color: rgba(255, 105, 180, 0.5); /* Pink hearts */
+            width: 15px;
+            height: 15px;
+            transform: rotate(-45deg);
+            animation: floatHeart 15s infinite ease-in-out;
             pointer-events: none;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+            z-index: -1;
+            opacity: 0;
         }
 
-        .shape:nth-child(1) { width: 40px; height: 40px; left: 10%; top: 20%; background-color: rgba(255, 160, 180, 0.6); animation-delay: 0s; }
-        .shape:nth-child(2) { width: 60px; height: 60px; left: 30%; top: 50%; background-color: rgba(180, 255, 160, 0.6); animation-delay: 3s; }
-        .shape:nth-child(3) { width: 25px; height: 25px; left: 50%; top: 10%; background-color: rgba(160, 180, 255, 0.6); animation-delay: 6s; border-radius: 0; transform: rotate(45deg); } /* Square */
-        .shape:nth-child(4) { width: 50px; height: 50px; left: 70%; top: 70%; background-color: rgba(255, 220, 160, 0.6); animation-delay: 9s; }
-        .shape:nth-child(5) { width: 35px; height: 35px; left: 90%; top: 40%; background-color: rgba(200, 160, 255, 0.6); animation-delay: 12s; border-radius: 0; } /* Another Square */
-        .shape:nth-child(6) { width: 45px; height: 45px; left: 20%; top: 80%; background-color: rgba(160, 255, 220, 0.6); animation-delay: 15s; }
-        .shape:nth-child(7) { width: 55px; height: 55px; left: 40%; top: 30%; background-color: rgba(255, 160, 220, 0.6); animation-delay: 18s; }
-        .shape:nth-child(8) { width: 30px; height: 30px; left: 60%; top: 60%; background-color: rgba(220, 255, 160, 0.6); animation-delay: 21s; border-radius: 0; transform: rotate(-30deg); }
-        .shape:nth-child(9) { width: 70px; height: 70px; left: 80%; top: 90%; background-color: rgba(160, 220, 255, 0.6); animation-delay: 24s; }
-        .shape:nth-child(10) { width: 20px; height: 20px; left: 5%; top: 5%; background-color: rgba(255, 255, 160, 0.6); animation-delay: 27s; }
+        .heart-animation:before,
+        .heart-animation:after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: rgba(255, 105, 180, 0.5);
+        }
 
-        @keyframes floatAndFade {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.8; }
-            100% { transform: translateY(-50px) rotate(360deg); opacity: 0; }
+        .heart-animation:before {
+            top: -7.5px;
+            left: 0;
+        }
+
+        .heart-animation:after {
+            left: 7.5px;
+            top: 0;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(-45deg) scale(0.5);
+                opacity: 0;
+            }
+            25% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-50px) rotate(-45deg) scale(1.2);
+                opacity: 0;
+            }
         }
 
         /* Main Content Container */
         .intro-container {
             background-color: rgba(255, 255, 255, 0.95);
-            padding: 50px;
+            padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             text-align: center;
             max-width: 800px;
             width: 90%;
             position: relative;
-            z-index: 1; /* Above background elements */
-            animation: bounceIn 1.5s ease-out; /* Main entrance animation */
-            overflow: hidden; /* For inner animations */
+            z-index: 1;
+            animation: fadeInScale 1.5s ease-out; /* Main entrance animation */
+            overflow-y: auto; /* Enable vertical scrolling */
+            max-height: 90vh; /* Limit height to allow scrolling on smaller screens */
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: #ff8ab4 #f8bbd0; /* Firefox */
         }
 
-        @keyframes bounceIn {
-            0%, 20%, 40%, 60%, 80%, 100% {
-                -webkit-transition-timing-function: cubic-bezier(0.215, .61, .355, 1);
-                transition-timing-function: cubic-bezier(0.215, .61, .355, 1)
-            }
-            0% {
-                opacity: 0;
-                -webkit-transform: scale3d(.3, .3, .3);
-                transform: scale3d(.3, .3, .3)
-            }
-            20% {
-                -webkit-transform: scale3d(1.1, 1.1, 1.1);
-                transform: scale3d(1.1, 1.1, 1.1)
-            }
-            40% {
-                -webkit-transform: scale3d(.9, .9, .9);
-                transform: scale3d(.9, .9, .9)
-            }
-            60% {
-                opacity: 1;
-                -webkit-transform: scale3d(1.03, 1.03, 1.03);
-                transform: scale3d(1.03, 1.03, 1.03)
-            }
-            80% {
-                -webkit-transform: scale3d(.97, .97, .97);
-                transform: scale3d(.97, .97, .97)
-            }
-            100% {
-                opacity: 1;
-                -webkit-transform: scale3d(1, 1, 1);
-                transform: scale3d(1, 1, 1)
-            }
+        /* Custom scrollbar for Webkit browsers */
+        .intro-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .intro-container::-webkit-scrollbar-track {
+            background: #f8bbd0; /* Light pink */
+            border-radius: 10px;
+        }
+        .intro-container::-webkit-scrollbar-thumb {
+            background: #ff8ab4; /* Brighter pink */
+            border-radius: 10px;
+        }
+        .intro-container::-webkit-scrollbar-thumb:hover {
+            background: #e65288; /* Darker pink on hover */
+        }
+
+
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         h1 {
-            font-family: 'Bangers', cursive; /* Goofy, impactful font */
-            color: #e63946; /* Vibrant red */
-            font-size: 4.5em; /* Very large heading */
+            font-family: 'Dancing Script', cursive; /* Elegant script font */
+            color: #d81b60; /* Deep rose pink */
+            font-size: 4em; /* Larger heading */
             margin-bottom: 25px;
-            text-shadow: 5px 5px 0px #f8d0a0, 7px 7px 0px #ffe6a7; /* Goofy shadow */
-            animation: popIn 1s ease-out forwards;
-            position: relative; /* For pseudo-elements */
-            display: inline-block; /* To apply animation correctly */
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            animation: textPopIn 1s ease-out forwards;
+            position: relative;
+            display: inline-block;
         }
 
-        @keyframes popIn {
-            0% { transform: scale(0); opacity: 0; }
-            70% { transform: scale(1.1); opacity: 1; }
+        @keyframes textPopIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.05); opacity: 1; }
             100% { transform: scale(1); }
         }
 
-        /* Goofy blinking eyes/stars effect */
-        h1::before, h1::after {
-            content: '✨'; /* Twinkling star emoji */
-            position: absolute;
-            font-size: 0.6em;
-            animation: twinkle 1s infinite alternate;
+        .couple-graphic {
+            font-size: 4.5em; /* Large emoji for impact */
+            margin-bottom: 20px;
+            animation: pulseAndFloat 3s infinite ease-in-out;
+            display: inline-block; /* For transform */
         }
-        h1::before { top: 0px; left: -10px; animation-delay: 0.2s; }
-        h1::after { bottom: 0px; right: -10px; animation-delay: 0.5s; }
 
-        @keyframes twinkle {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1.2); }
+        @keyframes pulseAndFloat {
+            0% { transform: scale(1) translateY(0); opacity: 0.9; }
+            50% { transform: scale(1.1) translateY(-10px); opacity: 1; }
+            100% { transform: scale(1) translateY(0); opacity: 0.9; }
         }
+
 
         .explanation p {
             font-family: 'Poppins', sans-serif;
-            font-size: 1.2em;
-            line-height: 1.8;
-            color: #457b9d; /* Softer blue */
-            margin-bottom: 35px;
-            animation: slideInText 1s ease-out forwards;
-            animation-delay: 0.8s;
+            font-size: 1.1em;
+            line-height: 1.7;
+            color: #6a1b9a; /* Deep purple for elegance */
+            margin-bottom: 25px;
+            animation: fadeInText 1.2s ease-out forwards;
+            animation-delay: 0.5s;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(10px);
         }
 
-        @keyframes slideInText {
+        @keyframes fadeInText {
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -149,141 +167,159 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             padding: 10px;
             border-radius: 10px;
-            background-color: rgba(255, 255, 255, 0.7);
+            background-color: rgba(255, 255, 255, 0.8);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            animation: scaleIn 0.8s ease-out forwards;
+            animation: slideInFeature 0.8s ease-out forwards;
             opacity: 0;
         }
 
-        .feature:nth-child(1) { animation-delay: 1.2s; }
-        .feature:nth-child(2) { animation-delay: 1.5s; }
-        .feature:nth-child(3) { animation-delay: 1.8s; }
+        .feature:nth-child(1) { animation-delay: 1.0s; }
+        .feature:nth-child(2) { animation-delay: 1.3s; }
+        .feature:nth-child(3) { animation-delay: 1.6s; }
 
-        @keyframes scaleIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        @keyframes slideInFeature {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
         .feature-icon {
-            font-size: 3em;
-            margin-right: 20px;
-            color: #2a9d8f; /* Teal color */
-            animation: bounce 2s infinite ease-in-out;
-            transform-origin: bottom;
+            font-size: 2.5em; /* Slightly smaller icons */
+            margin-right: 15px;
+            color: #ec407a; /* Vibrant pink */
+            animation: swing 2s infinite ease-in-out; /* Gentle swing */
+            transform-origin: top center;
+        }
+
+        @keyframes swing {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
         }
 
         .feature-text {
             text-align: left;
-            font-size: 1.1em;
-            color: #3d405b; /* Darker blue-grey */
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-15px); }
-            60% { transform: translateY(-7px); }
+            font-size: 1em;
+            color: #555;
         }
 
         .call-to-action button {
-            background: linear-gradient(45deg, #f4a261, #e76f51); /* Warm gradient */
+            background: linear-gradient(45deg, #ff80ab, #e91e63); /* Pink to deeper pink gradient */
             color: white;
             padding: 18px 40px;
             border: none;
             border-radius: 35px;
-            font-size: 1.5em;
+            font-size: 1.4em;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
             letter-spacing: 1px;
             text-transform: uppercase;
-            animation: pulse 2s infinite ease-in-out; /* Pulsing effect */
+            animation: buttonPulse 2s infinite ease-in-out;
             margin-top: 30px;
         }
 
         .call-to-action button:hover {
-            transform: translateY(-7px) scale(1.05);
+            transform: translateY(-5px) scale(1.02);
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
-            background: linear-gradient(45deg, #e76f51, #f4a261);
+            background: linear-gradient(45deg, #e91e63, #ff80ab);
             animation: none; /* Stop pulsing on hover */
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); }
-            50% { transform: scale(1.03); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3); }
-            100% { transform: scale(1); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); }
+        @keyframes buttonPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
         }
 
-        /* Responsive adjustments */
+        /* Responsive adjustments for smaller screens */
         @media (max-width: 768px) {
             .intro-container {
-                padding: 30px;
+                padding: 25px;
+                max-height: 95vh; /* Allow more height for scrolling on small screens */
             }
             h1 {
-                font-size: 3em;
+                font-size: 2.8em;
+                margin-bottom: 15px;
+            }
+            .couple-graphic {
+                font-size: 3.5em;
+                margin-bottom: 15px;
             }
             .explanation p {
-                font-size: 1em;
+                font-size: 0.95em;
+                margin-bottom: 20px;
             }
             .feature {
                 flex-direction: column;
-                margin-bottom: 20px;
+                margin-bottom: 15px;
+                padding: 8px;
             }
             .feature-icon {
                 margin-right: 0;
-                margin-bottom: 10px;
+                margin-bottom: 8px;
+                font-size: 2em;
+            }
+            .feature-text {
+                font-size: 0.9em;
             }
             .call-to-action button {
                 padding: 15px 30px;
-                font-size: 1.2em;
+                font-size: 1.1em;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="shape" style="left: 10%; top: 20%; animation-delay: 0s;"></div>
-    <div class="shape" style="width: 50px; height: 50px; left: 25%; top: 15%; animation-delay: 1s; background-color: rgba(255, 220, 100, 0.6);"></div>
-    <div class="shape" style="width: 30px; height: 30px; left: 40%; top: 30%; animation-delay: 2s;"></div>
-    <div class="shape" style="width: 70px; height: 70px; left: 5%; top: 70%; animation-delay: 3s; background-color: rgba(100, 255, 220, 0.6); border-radius: 0; transform: rotate(-20deg);"></div>
-    <div class="shape" style="left: 60%; top: 5%; animation-delay: 4s;"></div>
-    <div class="shape" style="width: 45px; height: 45px; left: 80%; top: 25%; animation-delay: 5s; background-color: rgba(220, 100, 255, 0.6);"></div>
-    <div class="shape" style="left: 15%; top: 60%; animation-delay: 6s;"></div>
-    <div class="shape" style="width: 65px; height: 65px; left: 75%; top: 80%; animation-delay: 7s; background-color: rgba(255, 100, 160, 0.6); border-radius: 0; transform: rotate(15deg);"></div>
-    <div class="shape" style="left: 45%; top: 90%; animation-delay: 8s;"></div>
-    <div class="shape" style="width: 55px; height: 55px; left: 95%; top: 10%; animation-delay: 9s; background-color: rgba(100, 160, 255, 0.6);"></div>
-    <div class="shape" style="left: 20%; top: 0%; animation-delay: 10s;"></div>
-    <div class="shape" style="width: 35px; height: 35px; left: 70%; top: 40%; animation-delay: 11s; background-color: rgba(160, 255, 100, 0.6);"></div>
-    <div class="shape" style="left: 50%; top: 75%; animation-delay: 12s;"></div>
-    <div class="shape" style="width: 40px; height: 40px; left: 30%; top: 95%; animation-delay: 13s; background-color: rgba(255, 100, 100, 0.6); border-radius: 0;"></div>
-    <div class="shape" style="left: 85%; top: 55%; animation-delay: 14s;"></div>
+    <div class="heart-animation" style="left: 10%; top: 20%; animation-delay: 0s; transform: scale(0.6);"></div>
+    <div class="heart-animation" style="left: 30%; top: 50%; animation-delay: 2s; transform: scale(0.8);"></div>
+    <div class="heart-animation" style="left: 50%; top: 10%; animation-delay: 4s; transform: scale(0.7);"></div>
+    <div class="heart-animation" style="left: 70%; top: 70%; animation-delay: 6s; transform: scale(0.9);"></div>
+    <div class="heart-animation" style="left: 90%; top: 40%; animation-delay: 8s; transform: scale(0.5);"></div>
+    <div class="heart-animation" style="left: 20%; top: 80%; animation-delay: 10s; transform: scale(1);"></div>
+    <div class="heart-animation" style="left: 40%; top: 30%; animation-delay: 12s; transform: scale(0.75);"></div>
+    <div class="heart-animation" style="left: 60%; top: 60%; animation-delay: 14s; transform: scale(0.85);"></div>
+    <div class="heart-animation" style="left: 80%; top: 90%; animation-delay: 16s; transform: scale(0.65);"></div>
+    <div class="heart-animation" style="left: 5%; top: 5%; animation-delay: 18s; transform: scale(0.95);"></div>
+    <div class="heart-animation" style="left: 25%; top: 5%; animation-delay: 1s; transform: scale(0.7);"></div>
+    <div class="heart-animation" style="left: 75%; top: 85%; animation-delay: 3s; transform: scale(0.8);"></div>
+    <div class="heart-animation" style="left: 15%; top: 95%; animation-delay: 5s; transform: scale(0.9);"></div>
+    <div class="heart-animation" style="left: 85%; top: 15%; animation-delay: 7s; transform: scale(0.6);"></div>
+    <div class="heart-animation" style="left: 45%; top: 75%; animation-delay: 9s; transform: scale(0.7);"></div>
+
 
     <div class="intro-container">
-        <h1>Welcome, Soul-Seeker!</h1>
+        <h1>Welcome, Cherished Souls!</h1>
+
+        <div class="couple-graphic">💑</div>
+
         <div class="explanation">
-            <p>Ever held a secret close to your heart? A tender whisper meant for another, or perhaps a profound sentiment just for yourself? Now, there's a whimsical haven for those precious thoughts.</p>
-            <p>Behold, <strong>The Love Whisper Box</strong> &ndash; a magical digital sanctuary crafted just for you and your beloved sentiments!</p>
+            <p>Ever desired a private space for your tender feelings? A shared secret, or a hidden message for your special someone?</p>
+            <p>Discover <strong>The Love Whisper Box</strong> &ndash; a gentle sanctuary for your heart's most intimate expressions.</p>
         </div>
 
         <div class="feature">
+            <span class="feature-icon">✨</span>
+            <span class="feature-text"><strong>Sacred Privacy:</strong> Your heartfelt words remain known only to you, or your beloved, via a unique key.</span>
+        </div>
+        <div class="feature">
             <span class="feature-icon">💖</span>
-            <span class="feature-text"><strong>Utterly Private:</strong> Your cherished words remain known only to you, or to whomever you choose to share your secret key with.</span>
+            <span class="feature-text"><strong>Elegant & Engaging:</strong> A delightful journey awaits within a beautifully designed, animated realm.</span>
         </div>
         <div class="feature">
             <span class="feature-icon">🔐</span>
-            <span class="feature-text"><strong>Secured by Your Key:</strong> Each whisper is sealed with a unique passphrase, ensuring its intimate retrieval.</span>
-        </div>
-        <div class="feature">
-            <span class="feature-icon">✨</span>
-            <span class="feature-text"><strong>Aesthetic & Delightful:</strong> Experience your emotional journey within a beautifully designed space, adorned with charming animations.</span>
+            <span class="feature-text"><strong>Effortless Retrieval:</strong> Reclaim your cherished messages with a simple, personal key.</span>
         </div>
 
         <div class="call-to-action">
-            <p>Ready to unburden your heart or explore a hidden message?</p>
-            <button onclick="window.location.href='whisper_box.html'">Step Into the Whisper Box</button>
+            <p>Ready to immerse yourself in this enchanting experience?</p>
+            <button onclick="window.location.href='whisper_box.html'">Enter The Whisper Box</button>
         </div>
     </div>
 
