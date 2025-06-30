@@ -18,19 +18,53 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            /* Enhanced pinkish gradient background with subtle textures */
-            background: linear-gradient(135deg, #fef0f7 0%, #ffe6ee 50%, #fcd9e8 100%);
+            /* New 'Couple Dancing' Background */
+            background:
+                /* First 'dancer' - subtle, irregular shapes */
+                radial-gradient(ellipse at 20% 80%, rgba(255, 200, 220, 0.4) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(255, 200, 220, 0.4) 0%, transparent 50%),
+                /* Second 'dancer' - softer, larger waves */
+                linear-gradient(135deg, rgba(255, 230, 240, 0.8) 0%, transparent 50%),
+                linear-gradient(45deg, rgba(255, 230, 240, 0.8) 0%, transparent 50%),
+                /* Base gradient */
+                linear-gradient(135deg, #fef0f7 0%, #ffe6ee 50%, #fcd9e8 100%);
+
+            background-size:
+                200% 200%, /* Size for first dancer's gradients */
+                200% 200%, /* Size for second dancer's gradients */
+                200% 200%, /* Base gradient size */
+                200% 200%,
+                100% 100%; /* For the fixed pink base gradient */
+
+            background-position:
+                0% 0%, /* Initial position for radial gradients */
+                100% 100%,
+                0% 0%, /* Initial position for linear gradients */
+                100% 100%,
+                center center; /* For the base gradient */
+
+            animation: danceBackground 30s infinite alternate ease-in-out; /* Main background animation */
+
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh; /* Ensures body takes at least full viewport height */
+            min-height: 100vh;
             color: #4a4a4a;
-            padding: 20px; /* Overall padding for content */
-            position: relative; /* For animated elements */
-            overflow-y: auto; /* Enable vertical scrolling for the entire page */
-            scrollbar-width: thin; /* Firefox scrollbar */
-            scrollbar-color: #ff8ab4 #f8bbd0; /* Firefox scrollbar colors */
+            padding: 20px;
+            position: relative;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #ff8ab4 #f8bbd0;
+        }
+
+        @keyframes danceBackground {
+            0% {
+                background-position: 0% 0%, 100% 100%, 0% 0%, 100% 100%, center center;
+            }
+            100% {
+                background-position: 100% 100%, 0% 0%, 100% 100%, 0% 0%, center center;
+            }
         }
 
         /* Custom scrollbar for Webkit browsers (body) */
@@ -47,55 +81,6 @@
         }
         body::-webkit-scrollbar-thumb:hover {
             background: #e65288; /* Darker pink on hover */
-        }
-
-        /* Animated Background Elements (Hearts and Sparkles) */
-        .animated-element {
-            position: absolute;
-            pointer-events: none;
-            z-index: -1;
-            opacity: 0;
-            animation: floatFadeRotate 20s infinite ease-in-out;
-        }
-
-        /* Hearts */
-        .animated-heart {
-            background-color: rgba(255, 105, 180, 0.4);
-            width: 20px;
-            height: 20px;
-            transform: rotate(-45deg);
-            border-radius: 50%;
-        }
-        .animated-heart::before, .animated-heart::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: rgba(255, 105, 180, 0.4);
-        }
-        .animated-heart::before { top: -10px; left: 0; }
-        .animated-heart::after { left: 10px; top: 0; }
-
-        /* Sparkles */
-        .animated-sparkle {
-            width: 8px;
-            height: 8px;
-            background-color: rgba(255, 255, 255, 0.7);
-            border-radius: 50%;
-            box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.8);
-            animation: twinkle 2s infinite alternate;
-        }
-
-        @keyframes floatFadeRotate {
-            0% { transform: translateY(100vh) rotate(0deg) scale(0.2); opacity: 0; }
-            20% { opacity: 0.6; }
-            100% { transform: translateY(-100px) rotate(360deg) scale(1.0); opacity: 0; }
-        }
-
-        @keyframes twinkle {
-            from { transform: scale(0.8); opacity: 0.5; }
-            to { transform: scale(1.2); opacity: 1; }
         }
 
         /* Container Styling for the main sections */
@@ -420,41 +405,19 @@
 </head>
 <body>
 
-    <div class="animated-element animated-heart" style="left: 10%; top: 20%; animation-delay: 0s;"></div>
-    <div class="animated-element animated-sparkle" style="left: 25%; top: 5%; animation-delay: 1s; width: 6px; height: 6px;"></div>
-    <div class="animated-element animated-heart" style="left: 30%; top: 50%; animation-delay: 2s;"></div>
-    <div class="animated-element animated-sparkle" style="left: 45%; top: 35%; animation-delay: 3s; width: 10px; height: 10px;"></div>
-    <div class="animated-element animated-heart" style="left: 50%; top: 10%; animation-delay: 4s;"></div>
-    <div class="animated-element animated-sparkle" style="left: 65%; top: 18%; animation-delay: 5s; width: 7px; height: 7px;"></div>
-    <div class="animated-element animated-heart" style="left: 70%; top: 70%; animation-delay: 6s;"></div>
-    <div class="animated-element animated-sparkle" style="left: 85%; top: 60%; animation-delay: 7s; width: 9px; height: 9px;"></div>
-    <div class="animated-element animated-heart" style="left: 90%; top: 40%; animation-delay: 8s;"></div>
-    <div class="animated-element animated-sparkle" style="left: 15%; top: 80%; animation-delay: 9s; width: 8px; height: 8px;"></div>
-    <div class="animated-element animated-heart" style="left: 20%; top: 80%; animation-delay: 10s;"></div>
-    <div class="animated-element animated-sparkle" style="left: 35%; top: 95%; animation-delay: 11s; width: 11px; height: 11px;"></div>
-    <div class="animated-element animated-heart" style="left: 40%; top: 30%; animation-delay: 12s;"></div>
-    <div class="animated-element animated-sparkle" style="left: 55%; top: 8%; animation-delay: 13s; width: 6px; height: 6px;"></div>
-    <div class="animated-element animated-heart" style="left: 60%; top: 60%; animation-delay: 14s;"></div>
-    <div class="animated-element animated-sparkle" style="left: 75%; top: 45%; animation-delay: 15s; width: 12px; height: 12px;"></div>
-    <div class="animated-element animated-heart" style="left: 80%; top: 90%; animation-delay: 16s;"></div>
-    <div class="animated-element animated-sparkle" style="left: 5%; top: 25%; animation-delay: 17s; width: 7px; height: 7px;"></div>
-    <div class="animated-element animated-heart" style="left: 5%; top: 5%; animation-delay: 18s;"></div>
-    <div class="animated-element animated-sparkle" style="left: 90%; top: 95%; animation-delay: 19s; width: 10px; height: 10px;"></div>
-
-
     <div class="container">
         <h1>Whispers of the Heart</h1>
-        <p>Within this gentle sanctuary, pour forth your deepest affections and cherished musings. Your words will be held sacred, awaiting the touch of a unique key to unveil their beauty.</p>
+        <p>Within this gentle sanctuary, pour forth your deepest affections and cherished musings. Your words will be held sacred, unveiled only when you **put a key** to them.</p>
         <textarea id="confessionText" placeholder="Craft your tender message or precious secret here..." rows="10"></textarea>
-        <input type="text" id="confessionPin" placeholder="Devise a unique key to seal this revelation" maxlength="10">
+        <input type="text" id="confessionPin" placeholder="Create a unique key to seal this revelation" maxlength="10">
         <button id="saveButton">Entrust My Whisper</button>
         <div id="saveMessage" class="message"></div>
     </div>
 
     <div class="container">
         <h2>Unveil a Cherished Memory</h2>
-        <p>Present your sacred key to rediscover the tender message or profound sentiment once entrusted to this ethereal box.</p>
-        <input type="text" id="retrievePin" placeholder="Enter your unique key to unveil the truth">
+        <p>To rediscover your tender message, simply **put the key** you created here, and the box will reveal its secrets.</p>
+        <input type="text" id="retrievePin" placeholder="Put your unique key here to unveil the truth">
         <button id="retrieveButton">Summon the Revelation</button>
         <div id="retrieveMessage" class="message"></div>
         <div id="retrievedConfession"></div>
@@ -606,30 +569,8 @@
                 greetingMessage = "Good night, Sarthak! Sweet dreams carry your deepest whispers.";
             }
 
-            // Display this greeting subtly, perhaps as a temporary message or in a dedicated spot
-            // For now, let's make it a subtle console log, or if you prefer, it can be a temporary on-screen message.
+            // Display this greeting subtly in the console for now, or uncomment the on-screen display if desired.
             console.log(greetingMessage);
-            // If you want it on screen, you could have a small div at the top and display it there briefly.
-            // Example for an on-screen display (uncomment and add a div with id="timeGreeting"):
-            /*
-            const timeGreetingDiv = document.createElement('div');
-            timeGreetingDiv.id = 'timeGreeting';
-            timeGreetingDiv.style.cssText = `
-                position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
-                background-color: rgba(255, 255, 255, 0.9); padding: 8px 15px; border-radius: 10px;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1); font-size: 0.9em; z-index: 1000;
-                opacity: 0; transition: opacity 0.5s ease;
-            `;
-            timeGreetingDiv.textContent = greetingMessage;
-            document.body.appendChild(timeGreetingDiv);
-            setTimeout(() => {
-                timeGreetingDiv.style.opacity = 1;
-            }, 100);
-            setTimeout(() => {
-                timeGreetingDiv.style.opacity = 0;
-                setTimeout(() => timeGreetingDiv.remove(), 500);
-            }, 5000);
-            */
         });
     </script>
 </body>
